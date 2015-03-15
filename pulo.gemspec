@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = 'pulo'
   spec.version       = Pulo::VERSION
   spec.authors       = ['Andy Fleming']
-  spec.email         = ['andy@ulendo.com']
-  spec.summary       = 'An engineering toolbox'
-  spec.description   = 'An engineering toolbox'
-  spec.homepage      = ''
+  spec.email         = ['kabompo@gmail.com']
+  spec.summary       = 'Pulo is a (back-of-envelope) calculator for engineering.'
+  spec.description   = 'Pulo is a (back-of-envelope) calculator for engineering. It understands physical quantities, their dimensions and units.'
+  spec.homepage      = 'https://github.com/AndyFlem/pulo'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
