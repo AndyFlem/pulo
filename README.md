@@ -35,6 +35,7 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
 #This example calculates the power (in gigawatt hours per year) of a hydro power station based on head, flow and efficiency
 
 puts (
@@ -45,7 +46,8 @@ puts (
     Efficiency.percent(90)
   ).gigawatt_hours_per_year.to_s
 
-# Power: 115.97 GW.hr.yr-1
+#Power: 115.97 GW.hr.yr-1
+```
 
 ## Contributing
 
