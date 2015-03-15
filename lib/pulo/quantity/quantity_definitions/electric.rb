@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 QuantityBuilder.build(:Current) do
   dimensions I:1
   si_unit :amp,:s, 'A',1

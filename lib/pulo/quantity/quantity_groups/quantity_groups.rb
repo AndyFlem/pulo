@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module QuantityGroups
   US_THERMO={
       Energy: :millions_btu,

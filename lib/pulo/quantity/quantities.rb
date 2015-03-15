@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-
 class Quantities
   class << self
     def quantities; @quantities||={};end #hash with dimension_spec as the key

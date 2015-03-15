@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Water
   #def self.bulk_modulus
     #BulkModulus.new(2.15*10**9)

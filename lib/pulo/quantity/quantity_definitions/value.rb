@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 QuantityBuilder.build(:Value) do
   dimensions V:1
   si_unit :dollar,:s, '$',1

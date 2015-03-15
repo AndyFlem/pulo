@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class IF97
   class << self
     def critical_temperature

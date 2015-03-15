@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 QuantityBuilder.build(:Energy) do
   dimensions M:1,L:2,T:-2
 

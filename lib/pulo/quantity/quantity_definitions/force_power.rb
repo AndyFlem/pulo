@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 
 QuantityBuilder.build(:Force) do
   dimensions M:1,L:1,T:-2

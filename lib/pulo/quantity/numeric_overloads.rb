@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #Cos, Sin and Tan of angles
 module Math
   class << self
