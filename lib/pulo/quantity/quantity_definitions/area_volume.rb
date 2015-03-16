@@ -19,7 +19,7 @@ QuantityBuilder.build(:Area) do
   non_si_unit :square_foot,:square_feet, 'ft²',:square_meter,10.7639
   non_si_unit :square_inch,:square_inches, 'in²',:square_centimeter,0.15500031
 
-  synonyms :Extent,:Coverage
+  synonyms :Extent
 end
 
 QuantityBuilder.build(:Volume) do
