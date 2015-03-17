@@ -28,19 +28,6 @@ require 'pulo/material/water'
 require 'pulo/figure/figure2d'
 require 'pulo/figure/figure3d'
 
-
-require 'pulo/machine/steam/steam_turbine'
-require 'pulo/machine/steam/boiler'
-require 'pulo/machine/steam/deaerator'
-require 'pulo/machine/steam/header'
-require 'pulo/machine/steam/steam_process'
-require 'pulo/machine/steam/boiler_deaerator'
-require 'pulo/machine/steam/desuperheater'
-require 'pulo/machine/cost_of_electricity'
-require 'pulo/machine/hydraulics/pipe'
-
-require 'pulo/machine/value/loan'
-
 require 'pulo/quantity/numeric_overloads'
 
 module Pulo
