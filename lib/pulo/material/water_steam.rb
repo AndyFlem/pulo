@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require_relative '../material/if97'
+
 class WaterSteam
   attr_accessor :pressure,:temperature
   attr_accessor :specific_volume,:specific_volume_liquid
