@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+module Pulo
 
 QuantityBuilder.build(:Area) do
   dimensions L:2
@@ -19,7 +20,7 @@ QuantityBuilder.build(:Area) do
   non_si_unit :square_foot,:square_feet, 'ft²',:square_meter,10.7639
   non_si_unit :square_inch,:square_inches, 'in²',:square_centimeter,0.15500031
 
-  synonyms :Extent
+  synonyms :Extent, :Coverage
 end
 
 QuantityBuilder.build(:Volume) do
@@ -65,4 +66,6 @@ QuantityBuilder.build(:SpecificVolume) do
   si_unit :cubic_meter_per_kilogram,:cubic_meters_per_kilogram, 'm³.kg⁻¹',1
   si_unit :cubic_centimeter_per_kilogram,:cubic_centimeters_per_kilogram, 'cm³.kg⁻¹',10**-6
   non_si_unit :cubic_foot_per_pound,:cubic_feet_per_pound, 'ft³.lb⁻¹',:cubic_meter_per_kilogram,16.0184634
+end
+
 end

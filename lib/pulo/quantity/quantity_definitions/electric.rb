@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+module Pulo
+
 QuantityBuilder.build(:Current) do
   dimensions I:1
   si_unit :amp,:s, 'A',1
@@ -17,3 +19,4 @@ QuantityBuilder.build(:Voltage) do
   si_unit :volt,:s, 'V',1
 end
 
+end

@@ -1,5 +1,7 @@
 
-class Figure2D
+module Pulo
+
+  class Figure2D
   #include FigurePrinter
   attr_reader :area,:perimeter
   def initialize(area: nil, perimeter: nil)
@@ -32,7 +34,7 @@ class Figure2D
   end
 end
 
-class Circle < Figure2D
+  class Circle < Figure2D
   attr_reader :radius,:diameter
   def initialize(radius: nil, diameter: nil, area: nil)
     quantity_check [radius,Length] ,[diameter,Length] , [area,Area]
@@ -54,7 +56,7 @@ class Circle < Figure2D
   end
 end
 
-class Rectangle < Figure2D
+  class Rectangle < Figure2D
   attr_reader :width, :height
   def initialize(area: nil, width: nil, height: nil)
     quantity_check [area,Area] ,[width,Length] , [height,Length]
@@ -75,7 +77,7 @@ class Rectangle < Figure2D
   end
 end
 
-class Square < Figure2D
+  class Square < Figure2D
   attr_reader :width
   def initialize(width: nil, area: nil)
     quantity_check [area,Area] ,[width,Length]
@@ -88,7 +90,7 @@ class Square < Figure2D
   end
 end
 
-class Triangle < Figure2D
+  class Triangle < Figure2D
   attr_reader :angles,:lengths
   def initialize(angles: [], lengths: [], area: nil)
     while lengths.count<3;lengths<<nil;end
@@ -193,7 +195,7 @@ class Triangle < Figure2D
   def AngleFromArea(area,a,b); Math.asin(2*area/(a*b)); end
 end
 
-class Trapezoid < Figure2D #isoscelese only
+  class Trapezoid < Figure2D #isoscelese only
   attr_reader :base,:top,:height,:angle,:side_triangle,:side
   def initialize(angle: nil,height: nil,base: nil, area: nil)
     if angle and height and (base or width)
@@ -215,4 +217,6 @@ class Trapezoid < Figure2D #isoscelese only
       @perimeter=@base+@top+(@side)
     end
   end
+end
+
 end

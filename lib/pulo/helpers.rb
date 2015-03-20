@@ -1,16 +1,18 @@
 # encoding: utf-8
+module Pulo
 class QuantitiesException < StandardError
 
 end
+end
+
 
 def quantity_check *args
   args.each do |arg|
     unless arg[0].class==arg[1] or arg[0]==nil
-      raise QuantitiesException.new("Wrong argument type expecting a #{arg[1].name}")
+      raise ("Wrong argument type expecting a #{arg[1].name}")
     end
   end
 end
-
 
 def super_digit val
 
@@ -122,8 +124,8 @@ class NumberToRoundedConverter
     number.respond_to?(:zero?) ? number.zero? : number.to_d.zero?
   end
 end
-class NumberToDelimitedConverter
 
+class NumberToDelimitedConverter
   DELIMITED_REGEX = /(\d)(?=(\d\d\d)+(?!\d))/
 
   def self.convert number
@@ -140,6 +142,7 @@ class NumberToDelimitedConverter
     [left, right].compact
   end
 end
+
 class BigDecimal
   DEFAULT_STRING_FORMAT = 'F'
   def to_formatted_s(*args)

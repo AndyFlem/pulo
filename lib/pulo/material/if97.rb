@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-class IF97
+module Pulo
+
+  class IF97
   class << self
     def critical_temperature
       Temperature.kelvin(647.096)
@@ -377,4 +379,6 @@ class IF97
       if w.specific_entropy>specific_entropy then 3 else 2 end
     end
   end
+end
+
 end

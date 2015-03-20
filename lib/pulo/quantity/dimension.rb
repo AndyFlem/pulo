@@ -1,6 +1,7 @@
 # encoding: utf-8
 
-class Dimension
+module Pulo
+  class Dimension
   include Comparable
   def initialize spec
     @spec=spec #hash keyed on dimension name as a symbol eg :L
@@ -49,4 +50,5 @@ class Dimension
   def clean
     @spec=Hash[@spec.delete_if {|key,value| value==0}.sort]
   end
+end
 end

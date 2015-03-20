@@ -1,4 +1,6 @@
-class Boiler
+module Pulo
+
+  class Boiler
   attr_reader :feedwater, :steam, :blowdown
   attr_reader :blowdown_rate, :combustion_efficiency
 
@@ -59,4 +61,6 @@ class Boiler
       raise "Boiler not boiling!" if @steam.if97_region=="1"
     end
   end
+end
+
 end

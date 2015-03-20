@@ -1,5 +1,7 @@
 
-class BoilerDeaerator
+module Pulo
+
+  class BoilerDeaerator
 
   attr_reader :boiler,:deaerator
 
@@ -58,3 +60,4 @@ class BoilerDeaerator
   end
 end
 
+end

@@ -2,6 +2,8 @@
 
 require 'spec_helper'
 
+module Pulo
+
 describe 'Creating circles' do
   it 'should create a circle from a radius' do
     expect(Circle.new(radius: Length.inches(2)).area.to_s).to eq("Area: 81.07 cm²")
@@ -24,8 +26,10 @@ describe 'Creating rectangles' do
 end
 
 
-describe 'Some errors' do
-  it 'should check argument types' do
-    expect{Circle.new(radius: Area.square_inches(2))}.to raise_error(QuantitiesException)
+describe Circle do
+  it 'should raise exception on incorrect argument types' do
+    expect{Circle.new(radius: Area.square_inches(2))}.to raise_error(RuntimeError)
   end
+end
+
 end

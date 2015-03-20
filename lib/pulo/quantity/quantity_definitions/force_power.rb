@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+module Pulo
+
 QuantityBuilder.build(:Force) do
   dimensions M:1,L:1,T:-2
 
@@ -65,4 +67,6 @@ class Pressure
   def psig
     self.class.new(self.psia.value-14.7,:pounds_per_square_inch_gauge)
   end
+end
+
 end

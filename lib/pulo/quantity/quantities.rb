@@ -1,6 +1,7 @@
 # encoding: utf-8
 
-class Quantities
+module Pulo
+  class Quantities
   class << self
     def quantities; @quantities||={};end #hash with dimension_spec as the key
     def base_units; @base_units||={};end
@@ -25,5 +26,6 @@ class Quantities
         mem+="#{self.base_units[dim[0]].base_unit.abbreviation.to_s}#{dim[1]!=1 ? super_digit(dim[1]) : ''}"
       end
     end
+  end
   end
 end

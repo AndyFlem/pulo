@@ -1,5 +1,7 @@
 
-class Figure3D
+module Pulo
+
+  class Figure3D
   attr_reader :volume, :surfacearea
   def initialize(volume: nil, surfacearea: nil)
     @volume=volume if volume
@@ -31,8 +33,7 @@ class Figure3D
   end
 end
 
-
-class Cylinder < Figure3D
+  class Cylinder < Figure3D
   attr_reader :face, :length, :area, :radius
   def initialize (face: nil, length: nil, volume: nil, radius: nil, diameter: nil)
     quantity_check [face,Figure2D] ,[length,Length] , [volume,Volume], [radius, Length], [diameter, Length]
@@ -62,7 +63,7 @@ class Cylinder < Figure3D
   end
 end
 
-class TrapezoidalPrism < Figure3D
+  class TrapezoidalPrism < Figure3D
   attr_reader :face, :length
   attr_reader :base_area,:side_area,:top_area
   def initialize(face: nil, length: nil, angle: nil,height: nil,base: nil, area: nil)
@@ -81,7 +82,7 @@ class TrapezoidalPrism < Figure3D
   end
 end
 
-class Cube < Figure3D
+  class Cube < Figure3D
   attr_reader :width, :face
   def initialize(width: nil, face: nil, volume: nil)
     if volume
@@ -95,7 +96,7 @@ class Cube < Figure3D
   end
 end
 
-class Cuboid < Figure3D
+  class Cuboid < Figure3D
   attr_reader :width, :depth, :height, :faces
   def initialize(width: nil, height: nil, depth: nil, volume: nil, face: nil)
     @faces=[]
@@ -118,7 +119,8 @@ class Cuboid < Figure3D
     @surfacearea=(@faces[0].area+@faces[1].area+@faces[2].area)*2
   end
 end
-class Sphere < Figure3D
+
+  class Sphere < Figure3D
   attr_reader :radius,:diameter
   def initialize(radius: nil, diameter: nil, volume: nil)
     if volume
@@ -137,4 +139,6 @@ class Sphere < Figure3D
     end
     @surfacearea=@radius.value**2*(4*Math::PI)
   end
+end
+
 end

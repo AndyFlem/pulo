@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 
+module Pulo
 
 describe 'Saturated Steam temperature and pressure' do
   it 'should give the pressure of sat steam given temp' do
@@ -42,3 +43,5 @@ end
 #p Temperature.fahrenheit(298).celsius.to_s
 #p MassFlow.pounds_per_hour(21500).kilograms_per_second.to_s
 #p (Power.millions_btu_per_hour(26.7).megawatts*Dimensionless.percent(6.4)).to_s
+
+end

@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-module QuantityGroups
+module Pulo
+
+  module QuantityGroups
   US_THERMO={
       Energy: :millions_btu,
       SpecificEnthalpy: :btu_per_pound,
@@ -28,5 +30,7 @@ module QuantityGroups
       Mass: :tonnes,
       Volume: :cubic_meters
   }
+
+  end
 
 end

@@ -1,4 +1,6 @@
-class PipeTypes
+module Pulo
+
+  class PipeTypes
   attr_reader :pipe_types
   def initialize
     pipe_groups={
@@ -21,7 +23,7 @@ class PipeTypes
 end
 
 
-class Pipeline
+  class Pipeline
 
   attr_reader :inside_cylinder,:outside_cylinder,:length
   attr_reader :wall_thickness, :wall_area, :wall_volume,  :mass
@@ -66,3 +68,4 @@ class Pipeline
   end
 end
 
+end

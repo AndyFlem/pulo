@@ -2,7 +2,8 @@
 
 require_relative '../material/if97'
 
-class WaterSteam
+module Pulo
+  class WaterSteam
   attr_accessor :pressure,:temperature
   attr_accessor :specific_volume,:specific_volume_liquid
   attr_accessor :specific_internal_energy,:specific_entropy,:specific_enthalpy
@@ -223,4 +224,4 @@ class WaterSteam
     end
   end
 end
-
+end

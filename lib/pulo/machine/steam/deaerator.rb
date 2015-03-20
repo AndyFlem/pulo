@@ -1,4 +1,7 @@
-class Deaerator
+
+module Pulo
+
+  class Deaerator
   attr_reader :steam, :feedwater,:vent,:inlet
   attr_reader :dearator_pressure,:vent_rate
   attr_reader :dearator_mass_flow
@@ -29,5 +32,7 @@ class Deaerator
     @steam.mass_flow=add_pow/(@steam.specific_enthalpy-@inlet.specific_enthalpy)
     @inlet.mass_flow=@deaereator_mass_flow-@steam.mass_flow
   end
+
+end
 
 end

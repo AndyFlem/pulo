@@ -1,4 +1,7 @@
-class Desuperheater
+
+module Pulo
+
+  class Desuperheater
 
   attr_reader :inlet_steam,:outlet_steam,:water
 
@@ -20,6 +23,8 @@ class Desuperheater
       @water.mass_flow=outlet_massflow*(@inlet_steam.specific_enthalpy-@outlet_steam.specific_enthalpy)/(@inlet_steam.specific_enthalpy-@water.specific_enthalpy)
       @inlet_steam.mass_flow=outlet_massflow-@water.mass_flow
     end
+  end
+
   end
 
 end

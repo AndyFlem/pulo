@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+module Pulo
 QuantityBuilder.build(:Velocity) do
   dimensions L:1,T:-1
   si_unit :kilometer_per_second,:sf, 'km.s⁻¹',10**3
@@ -59,4 +60,6 @@ QuantityBuilder.build(:VolumeFlow) do
   non_si_unit :hectolitre_per_year,:sf,'hl.yr⁻¹',:cubic_meter_per_year,10
 
   synonyms :Discharge
+end
+
 end

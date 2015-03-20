@@ -1,6 +1,7 @@
 # encoding: utf-8
 
-class Quantity
+module Pulo
+  class Quantity
   include Comparable
   #=====================================
   #Quantity: Class variables and methods - Child Quantities
@@ -230,5 +231,6 @@ class Quantity
         return self.send us[0][1].name
       end
     end
+  end
   end
 end

@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-class Water
+module Pulo
+
+  class Water
   #def self.bulk_modulus
     #BulkModulus.new(2.15*10**9)
   #end
@@ -27,4 +29,6 @@ class Water
   #  pres=pressure.is_a?(Pressure) ? pressure.value : pressure
   #  Temperature.new(Math::E**(Math.log(Temperature.new(0).kelvin)+((-1.56*10**-6)/6030)*(pres-Atmosphere.standard_pressure.value)),:kelvin)
   #end
+  end
+
 end

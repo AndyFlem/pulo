@@ -1,12 +1,13 @@
 # encoding: utf-8
 
-class QuantityBuilder
+module Pulo
+  class QuantityBuilder
 
   @unit_group_name
 
   def self.build name,&block
     klass=Class.new(Quantity)
-    Kernel.const_set(name,klass)
+    Pulo.const_set(name,klass)
     QuantityBuilder.new(klass,&block)
   end
 
@@ -135,9 +136,9 @@ class QuantityBuilder
   def synonyms *syns
     syns.each do |syn|
       @klass.synonyms << syn
-      Kernel.const_set(syn,@klass.clone)
+      Pulo.const_set(syn,@klass.clone)
     end
   end
 
 end
-
+end

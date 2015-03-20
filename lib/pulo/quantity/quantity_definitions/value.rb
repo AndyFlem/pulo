@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+module Pulo
+
 QuantityBuilder.build(:Value) do
   dimensions V:1
   si_unit :dollar,:s, '$',1
@@ -58,4 +60,6 @@ QuantityBuilder.build(:EnergyValue) do
   non_si_unit :dollar_per_million_btu,:sf, '$.kWh⁻¹',:dollar_per_megajoule,1055.05585
 
   synonyms :EnergyCost
+end
+
 end

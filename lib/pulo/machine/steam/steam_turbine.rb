@@ -1,4 +1,6 @@
-class SteamTurbine
+module Pulo
+
+  class SteamTurbine
   attr_reader :inlet_steam,:outlet_steam
   attr_reader :isentropic_efficiency,:mechanical_efficiency
   attr_reader :electrical_power
@@ -35,4 +37,6 @@ class SteamTurbine
   def outlet_enthalpy_from_isentropic inlet_enthalpy,ideal_outlet_enthalpy,isentropic_efficiency
     inlet_enthalpy-isentropic_efficiency*(inlet_enthalpy-ideal_outlet_enthalpy)
   end
+end
+
 end

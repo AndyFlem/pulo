@@ -2,6 +2,8 @@
 
 require 'spec_helper'
 
+module Pulo
+
 
 describe 'Creating quantities' do
   it 'should create SI quantity from a full name' do
@@ -128,10 +130,10 @@ describe 'Dimensions' do
 
     expect(
         (Head.centimeters(1000)*
-        VolumeFlow.cumec(150)*
-        Acceleration.g*
-        Density.water*
-        Efficiency.percent(90)
+            VolumeFlow.cumec(150)*
+            Acceleration.g*
+            Density.water*
+            Efficiency.percent(90)
       ).gigawatt_hours_per_year.to_s
     ).to eq("Power: 115.97 GW.hr.yr\u207B\u00B9")
   end
@@ -269,3 +271,4 @@ describe 'Angles should be as expected' do
   end
 end
 
+end

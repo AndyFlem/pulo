@@ -1,4 +1,6 @@
 # encoding: utf-8
+
+module Pulo
 QuantityBuilder.build(:Dimensionless) do
   dimensions L:0
   si_unit :n,:n, '',1
@@ -134,4 +136,6 @@ class Temperature
         self.class.new((9.0/5.0*(self.value-273.15))+32.0,:fahrenheit)
     end
   end
+end
+
 end

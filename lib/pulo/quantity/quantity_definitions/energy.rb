@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+module Pulo
+
 QuantityBuilder.build(:Energy) do
   dimensions M:1,L:2,T:-2
 
@@ -51,4 +53,6 @@ QuantityBuilder.build(:SpecificHeat) do
   non_si_unit :btu_per_pound_rankine,:btu_per_pound_rankine,'Btu.lb⁻¹.R⁻¹',:kilojoule_per_kilogram_kelvin,0.238845896627
 
   synonyms :SpecificEntropy,:SpecificHeatCapacity
+end
+
 end
