@@ -1,10 +1,4 @@
 # encoding: utf-8
-module Pulo
-class QuantitiesException < StandardError
-
-end
-end
-
 
 def quantity_check *args
   args.each do |arg|

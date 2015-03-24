@@ -5,7 +5,7 @@ require 'bigdecimal'
 require 'bigdecimal/util'
 
 require_relative 'pulo/helpers'
-
+require_relative 'pulo/exceptions'
 
 require_relative 'pulo/quantity/quantities'
 require_relative 'pulo/quantity/quantity'
