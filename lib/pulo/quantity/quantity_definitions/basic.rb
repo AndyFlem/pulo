@@ -11,6 +11,8 @@ QuantityBuilder.build(:Angle) do
   dimensions L:0
   si_unit :radian,:radians,'rad',1
   non_si_unit :degree,:s, 'deg',:radian,360.0/(2*Math::PI)
+
+  constant :pi, 'pi',:radian,Math::PI
 end
 QuantityBuilder.build(:Length) do
   dimensions L:1

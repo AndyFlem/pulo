@@ -53,7 +53,7 @@ end
           else
             @face=Circle.new(radius: radius, diameter: diameter)
             @length=length
-            @volume=@face*@length
+            @volume=@face.area*@length
           end
         end
       end

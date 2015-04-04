@@ -164,7 +164,7 @@ module Pulo
     new_dims=self.class.dimensions/power
     q1=self; q1=q1.to_si unless q1.is_si?
 
-    target_scale=q1.unit.scale
+    target_scale=q1.unit.scale/power
     target_value=q1.value**(1.0/power)
     existing_or_new_quantity new_dims,target_scale,target_value
   end

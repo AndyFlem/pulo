@@ -1,8 +1,23 @@
 # encoding: utf-8
 
 #Cos, Sin and Tan of angles
+class Numeric
+  def clamp(min, max)
+    self < min ? min : self > max ? max : self
+  end
+end
+
 module Math
   class << self
+    alias :old_sqrt :sqrt
+
+    def sqrt(val)
+      if val.is_a?(Pulo::Quantity)
+        val.rt(2)
+      else
+        self.old_sqrt(val)
+      end
+    end
     alias :old_cos :cos
     def cos(angle)
       if angle.is_a?(Pulo::Angle)
@@ -11,6 +26,15 @@ module Math
         self.old_cos(angle)
       end
     end
+    alias :old_acos :acos
+    def acos(dimless)
+      if dimless.is_a?(Pulo::Dimensionless)
+        Pulo::Angle.radians(self.old_acos(dimless.n.value.clamp(-1,1)))
+      else
+        self.old_acos(dimless)
+      end
+    end
+
     alias :old_sin :sin
     def sin(angle)
       if angle.is_a?(Pulo::Angle)
@@ -19,6 +43,16 @@ module Math
         self.old_sin(angle)
       end
     end
+    alias :old_asin :asin
+    def asin(dimless)
+      if dimless.is_a?(Pulo::Dimensionless)
+        chk=
+        Pulo::Angle.radians(self.old_asin(dimless.n.value.clamp(-1,1)))
+      else
+        self.old_asin(dimless)
+      end
+    end
+
     alias :old_tan :tan
     def tan(angle)
       if angle.is_a?(Pulo::Angle)
@@ -27,6 +61,15 @@ module Math
         self.old_tan(angle)
       end
     end
+    alias :old_atan :atan
+    def atan(dimless)
+      if dimless.is_a?(Pulo::Dimensionless)
+        Pulo::Angle.radians(self.old_tan(dimless.n.value))
+      else
+        self.old_atan(dimless)
+      end
+    end
+
   end
 end
 

@@ -73,6 +73,31 @@ module Pulo
 
   end
 
+  describe Triangle do
+    it 'should create a triangle from three lengths' do
+      expect(Triangle.new(lengths: [Length.meters(3),Length.meters(4),Length.meters(5)]).angles[1].degrees.to_s).to eq("Angle: 36.87 deg")
+    end
+    it 'should create a triangle from two lengths and an angle' do
+      expect(Triangle.new(lengths: [Length.meters(3),Length.meters(4)], angles:[Angle.degrees(90)]).angles[1].degrees.to_s).to eq("Angle: 36.87 deg")
+    end
+    it 'should create a triangle from two lengths and an angle' do
+      expect(Triangle.new(lengths: [Length.meters(3),nil,Length.meters(5)], angles:[Angle.degrees(90)]).angles[2].degrees.to_s).to eq("Angle: 36.87 deg")
+    end
+    it 'should create a triangle from a length and two angles' do
+      expect(Triangle.new(lengths: [Length.meters(3)], angles:[Angle.degrees(90),Angle.degrees(36.87)]).angles[2].degrees.to_s).to eq("Angle: 53.13 deg")
+    end
+    it 'should create a triangle from an area and two angles' do
+      expect(Triangle.new(area: Area.square_inches(6), angles:[Angle.degrees(90),Angle.degrees(36.87)]).lengths[2].inches.to_s).to eq("Length: 4 in")
+    end
+    it 'should create a triangle from an area and two lengths' do
+      expect(Triangle.new(area: Area.square_inches(6), lengths: [Length.inches(3),Length.inches(4)]).lengths[2].inches.to_s).to eq("Length: 5 in")
+    end
+
+
+    it 'should raise exception on incorrect arguments' do
+      expect{Triangle.new(angles:[Angle.degrees(90),Angle.degrees(36.87),Angle.degrees(53.13)])}.to raise_error(RuntimeError)
+    end
+  end
 
 
 end
