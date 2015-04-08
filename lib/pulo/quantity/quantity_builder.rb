@@ -79,7 +79,7 @@ module Pulo
     @klass.units.merge!({unit.name=>unit})
 
     @klass.define_singleton_method("#{unit.name}") do |val=nil|
-      val=1 if val==nil
+      val=1 if val.nil?
       self.new val,unit
     end
     unless unit.name.to_s==unit.plural

@@ -2,85 +2,30 @@
 module Pulo
 
   module Figure3D
-  attr_reader :volume, :surfacearea
+    attr_reader :volume, :surfacearea
+  end
 
-  def + (other)
-    raise "Cant add a #{other.class} to a Figure3D" unless other.is_a?(Figure3D)
-    self.class.new(volume: self.volume+other.volume)
-  end
-  def - (other)
-    raise "Cant minus a #{other.class} from a Figure3D" unless other.is_a?(Figure3D)
-    self.class.new(volume: self.volume-other.volume)
-  end
-  def * (other)
-    if other.is_a?(Numeric)
-      self.class.new(volume: self.volume*other)
-    else
-      raise "Dont know how to multiply a #{self.class} by a #{other.class}"
-    end
-  end
-  def / (other)
-    if other.is_a?(Numeric)
-      self.class.new(volume: self.volume/other)
-    elsif other.is_a?(Length)
-      self.volume/other
-    else
-      raise "Dont know how to divide a #{self.class} by a #{other.class}"
-    end
-  end
-end
-
-  class Cylinder
+  class Sphere
     include Figure3D
-
-    attr_reader :face, :length, :area, :radius
-    def initialize (face: nil, length: nil, volume: nil, radius: nil, diameter: nil)
-      quantity_check [face,Circle] ,[length,Length] , [volume,Volume], [radius, Length], [diameter, Length]
-      if face and length
-        @face=face
-        @length=length
-        @volume=@face.area*@length
+    attr_reader :radius,:diameter
+    def initialize(radius: nil, diameter: nil, volume: nil)
+      quantity_check [radius,Length] ,[diameter,Length], [volume, Volume]
+      raise "Need more arguments for Sphere" unless volume or diameter or radius
+      if volume
+        @volume=volume
+        @radius=(@volume*3/(Angle.pi*4)).rt(3)
+        @diameter=@radius*2
       else
-        if volume and length
-          @length=length
-          @volume=volume
-          @face=Circle.new(area: @volume/@length)
+        if diameter
+          @diameter=diameter
+          @radius=@diameter/2
         else
-          if (radius or diameter) and volume
-            @face=Circle.new(radius: radius, diameter: diameter)
-            @volume=volume
-            @length=volume/@face.area
-          else
-            @face=Circle.new(radius: radius, diameter: diameter)
-            @length=length
-            @volume=@face.area*@length
-          end
+          @radius=radius
+          @diameter=@radius*2
         end
+        @volume=(@radius**3)*(4.0/3.0)*Angle.pi
       end
-
-      @surfacearea=@face.area*2+@face.perimeter*@length
-      @area=@face.area
-      @radius=@face.radius
-    end
-  end
-
-  class TrapezoidalPrism
-    include Figure3D
-    attr_reader :face, :length
-    attr_reader :base_area,:side_area,:top_area
-    def initialize(face: nil, length: nil, angle: nil,height: nil,base: nil, area: nil)
-      if face
-        raise "Please provide a trapezoid as the face." unless face.is_a?(Trapezoid)
-        @face=face
-      else
-        @face=Trapezoid.new(angle: angle, height: height, base: base, area: area)
-        @length=Length.new(length)
-        @volume=@face.area*@length
-        @base_area=@face.base*@length
-        @side_area=@face.side*@length
-        @top_area=@face.top*@length
-        @surfacearea=@face.area*2+@base_area+@top_area+@side_area*2
-      end
+      @surfacearea=@radius**2*(4*Angle.pi)
     end
   end
 
@@ -138,25 +83,63 @@ end
     end
   end
 
-  class Sphere
+  class Cylinder
     include Figure3D
-    attr_reader :radius,:diameter
-    def initialize(radius: nil, diameter: nil, volume: nil)
-      if volume
-        @volume=volume
-        @radius=(@volume.value*3/(4*Math::PI)).root(3)
-        @diameter=@radius*2
+
+    attr_reader :face, :length
+    def initialize (face: nil, length: nil, volume: nil, radius: nil, diameter: nil)
+      quantity_check [face,Circle] ,[length,Length] , [volume,Volume], [radius, Length], [diameter, Length]
+      if face and length
+        @face=face
+        @length=length
+        @volume=@face.area*@length
       else
-        if diameter
-          @diameter=diameter
-          @radius=@diameter/2
+        if volume and length
+          @length=length
+          @volume=volume
+          @face=Circle.new(area: @volume/@length)
         else
-          @radius=radius
-          @diameter=@radius*2
+          if (radius or diameter) and volume
+            @face=Circle.new(radius: radius, diameter: diameter)
+            @volume=volume
+            @length=volume/@face.area
+          else
+            @face=Circle.new(radius: radius, diameter: diameter)
+            @length=length
+            @volume=@face.area*@length
+          end
         end
-        @volume=(@radius.value**3)*(4.0/3.0)*Math::PI
       end
-      @surfacearea=@radius.value**2*(4*Math::PI)
+
+      @surfacearea=@face.area*2+@face.perimeter*@length
+      @area=@face.area
+      @radius=@face.radius
+    end
+  end
+
+  class Prism
+    include Figure3D
+    attr_reader :face, :length
+
+  end
+
+  class TrapezoidalPrism
+    include Figure3D
+    attr_reader :face, :length
+    attr_reader :base_area,:side_area,:top_area
+    def initialize(face: nil, length: nil, angle: nil,height: nil,base: nil, area: nil)
+      if face
+        raise "Please provide a trapezoid as the face." unless face.is_a?(Trapezoid)
+        @face=face
+      else
+        @face=Trapezoid.new(angle: angle, height: height, base: base, area: area)
+        @length=Length.new(length)
+        @volume=@face.area*@length
+        @base_area=@face.base*@length
+        @side_area=@face.side*@length
+        @top_area=@face.top*@length
+        @surfacearea=@face.area*2+@base_area+@top_area+@side_area*2
+      end
     end
   end
 

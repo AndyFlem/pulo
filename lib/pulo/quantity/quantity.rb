@@ -60,7 +60,7 @@ module Pulo
   end
 
   def initialize value=nil,unit=nil
-    value=1.0 if value==nil
+    value=1.0 if value.nil?
     if unit
       if unit.is_a?(Symbol)
         self.unit=self.class.units[unit]
