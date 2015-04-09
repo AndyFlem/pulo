@@ -33,13 +33,13 @@ module Pulo
 
   describe Square do
     it 'should create a square form a length' do
-      expect(Square.new(length: Length.inches(3)).area.to_s).to eq("Area: 58.06 cm\u00B2")
+      expect(Square.new(width: Length.inches(3)).area.to_s).to eq("Area: 58.06 cm\u00B2")
     end
     it 'should create a square form an area' do
-      expect(Square.new(area: Area.square_meters(1)).length.to_s).to eq("Length: 1 m")
+      expect(Square.new(area: Area.square_meters(1)).width.to_s).to eq("Length: 1 m")
     end
     it 'should raise exception on incorrect argument types' do
-      expect{Square.new(length: Area.square_meters(2))}.to raise_error(RuntimeError)
+      expect{Square.new(width: Area.square_meters(2))}.to raise_error(RuntimeError)
     end
 
   end

@@ -45,17 +45,17 @@ module Pulo
   class Square
     include Figure2D
 
-    attr_reader :length
-    def initialize(length: nil, area: nil)
-      raise "Square needs area or length." unless (area || length)
+    attr_reader :width
+    def initialize(width: nil, area: nil)
+      raise "Square needs area or width." unless (area || width)
 
-      quantity_check [area,Area] ,[length,Length]
+      quantity_check [area,Area] ,[width,Length]
       if area
-        @area=area; @length=@area.rt(2)
+        @area=area; @width=@area.rt(2)
       else
-        @length=length; @area=@length**2
+        @width=width; @area=@width**2
       end
-      @perimeter=@length*4
+      @perimeter=@width*4
     end
   end
 
@@ -72,6 +72,7 @@ module Pulo
       raise "Rectangle needs width and height or area and width or height." unless (width && height) || (area && (width || height))
       if area
         @area=area
+
         if width
           @width=width; @height=@area/@width
         else height
@@ -204,7 +205,7 @@ module Pulo
 
   class Trapezoid #isoscelese only
     include Figure2D
-    attr_reader :base,:top,:height,:angle
+    attr_reader :base,:top,:height,:angle, :side_triangle, :side
     def extrusion_figure
       TrapezoidalPrism
     end

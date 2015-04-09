@@ -31,17 +31,24 @@ module Pulo
 
   class Cube
     include Figure3D
-    attr_reader :width, :face
+    attr_reader :length, :face
 
-    def initialize(width: nil, face: nil, volume: nil)
-      raise "Cube needs volume or face or width." unless (width || volume || face)
+    def initialize(length: nil, face: nil, volume: nil)
+      quantity_check [length,Length] ,[face,Square], [volume, Volume]
+      raise "Cube needs volume or face or length." unless (length || volume || face)
 
       if volume
-        @volume=Volume.new(volume); @width=volume.root(3); @face=Square.new(width: @width)
+        @volume=volume;
+        @length=volume.rt(3);
+        @face=Square.new(width: @length)
       elsif face
-        @face=face; @width=@face.width; @volume=@face*@width
-      elsif width
-        @width=Length.new(width); @face=Square.new(width: @width); @volume=@face*@width
+        @face=face;
+        @length=@face.width;
+        @volume=@face.area*@length
+      elsif length
+        @length=length;
+        @face=Square.new(width: @length);
+        @volume=@face.area*@length
       end
       @surfacearea=@face.area*6
     end
@@ -59,15 +66,15 @@ module Pulo
         @faces[0]=Rectangle.new(width: width, height: height)
         @faces[1]=Rectangle.new(width: width, height: length)
         @faces[2]=Rectangle.new(width: length, height: height)
-        @volume=@faces[0]*@length
+        @volume=@faces[0].area*@length
       end
       if volume and face
         @volume=volume
         @faces[0]=face
         @width=@faces[0].width
-        @length=@faces[0].height
-        @height=@volume/@faces[0].area
-        @faces[1]=Rectangle.new(width: @width, height: @height)
+        @height=@faces[0].height
+        @length=@volume/@faces[0].area
+        @faces[1]=Rectangle.new(width: @width, height: @length)
         @faces[2]=Rectangle.new(width: @length, height: @height)
       end
       if face and length
@@ -89,6 +96,9 @@ module Pulo
     attr_reader :face, :length
     def initialize (face: nil, length: nil, volume: nil, radius: nil, diameter: nil)
       quantity_check [face,Circle] ,[length,Length] , [volume,Volume], [radius, Length], [diameter, Length]
+      raise "Cylinder needs length and face or volume and length or volume and radius or diameter." unless
+          (face and length) or (volume and length) or (volume and (radius or diameter)) or (length and (radius or diameter))
+
       if face and length
         @face=face
         @length=length
@@ -120,26 +130,35 @@ module Pulo
   class Prism
     include Figure3D
     attr_reader :face, :length
-
+    attr_reader :side_areas
+    def initialize(face: nil, length: nil)
+      quantity_check [face,Triangle] ,[length,Length]
+      raise "Prism needs a face and length." unless face and length
+      @face=face
+      @length=length
+      @volume=@face.area*@length
+      @side_areas=[]
+      @side_areas[0]=@face.lengths[0]*@length
+      @side_areas[1]=@face.lengths[1]*@length
+      @side_areas[2]=@face.lengths[2]*@length
+      @surfacearea=@face.area*2+@side_areas[0]+@side_areas[1]+@side_areas[2]
+    end
   end
 
   class TrapezoidalPrism
     include Figure3D
     attr_reader :face, :length
     attr_reader :base_area,:side_area,:top_area
-    def initialize(face: nil, length: nil, angle: nil,height: nil,base: nil, area: nil)
-      if face
-        raise "Please provide a trapezoid as the face." unless face.is_a?(Trapezoid)
-        @face=face
-      else
-        @face=Trapezoid.new(angle: angle, height: height, base: base, area: area)
-        @length=Length.new(length)
-        @volume=@face.area*@length
-        @base_area=@face.base*@length
-        @side_area=@face.side*@length
-        @top_area=@face.top*@length
-        @surfacearea=@face.area*2+@base_area+@top_area+@side_area*2
-      end
+    def initialize(face: nil, length: nil)
+      quantity_check [face,Trapezoid] ,[length,Length]
+      raise "TrapezoidalPrism needs a face and length." unless face and length
+      @face=face
+      @length=length
+      @volume=@face.area*@length
+      @base_area=@face.base*@length
+      @side_area=@face.side*@length
+      @top_area=@face.top*@length
+      @surfacearea=@face.area*2+@base_area+@top_area+@side_area*2
     end
   end
 
