@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-def quantity_check *args
+def quantity_check(*args)
   args.each do |arg|
     unless arg[0].class==arg[1] or arg[0].nil?
       raise ("Wrong argument type expecting a #{arg[1].name}")
@@ -8,49 +8,49 @@ def quantity_check *args
   end
 end
 
-def super_digit val
+def super_digit(val)
 
-  val.to_s.chars.inject('') do |res,chr|
-    res+=  case chr
-             when '.'
-               "\u207B".encode('utf-8')
-             when '-'
-               "\u207B".encode('utf-8')
-             when '1'
-               "\u00B9".encode('utf-8')
-             when '2'
-               "\u00B2".encode('utf-8')
-             when '3'
-               "\u00B3".encode('utf-8')
-             when '0'
-               "\u2070".encode('utf-8')
-             when '4'
-               "\u2074".encode('utf-8')
-             when '5'
-               "\u2075".encode('utf-8')
-             when '6'
-               "\u2076".encode('utf-8')
-             when '7'
-               "\u2077".encode('utf-8')
-             when '8'
-               "\u2078".encode('utf-8')
-             when '9'
-               "\u2079".encode('utf-8')
-             else
-               ''
-           end
+  val.to_s.chars.inject('') do |res, chr|
+    res+= case chr
+            when '.'
+              "\u207B".encode('utf-8')
+            when '-'
+              "\u207B".encode('utf-8')
+            when '1'
+              "\u00B9".encode('utf-8')
+            when '2'
+              "\u00B2".encode('utf-8')
+            when '3'
+              "\u00B3".encode('utf-8')
+            when '0'
+              "\u2070".encode('utf-8')
+            when '4'
+              "\u2074".encode('utf-8')
+            when '5'
+              "\u2075".encode('utf-8')
+            when '6'
+              "\u2076".encode('utf-8')
+            when '7'
+              "\u2077".encode('utf-8')
+            when '8'
+              "\u2078".encode('utf-8')
+            when '9'
+              "\u2079".encode('utf-8')
+            else
+              ''
+          end
   end
 end
 
 class NumberToRoundedConverter
-  def self.convert number,prec=nil
+  def self.convert(number, prec=nil)
     if prec
       precision =prec
     else
       precision = $precision || 2
     end
 
-    significant = $significant || false
+    significant = $significant
 
     case number
       when Float, String
@@ -62,7 +62,7 @@ class NumberToRoundedConverter
     end
 
     if significant && precision > 0
-      digits, rounded_number = digits_and_rounded_number(number,precision)
+      digits, rounded_number = digits_and_rounded_number(number, precision)
       precision -= digits
       precision = 0 if precision < 0 # don't let it be negative
     else
@@ -122,13 +122,13 @@ end
 class NumberToDelimitedConverter
   DELIMITED_REGEX = /(\d)(?=(\d\d\d)+(?!\d))/
 
-  def self.convert number
+  def self.convert(number)
     parts(number).join('.')
   end
 
   private
 
-  def self.parts number
+  def self.parts(number)
     left, right = number.to_s.split('.')
     left.gsub!(DELIMITED_REGEX) do |digit_to_delimit|
       "#{digit_to_delimit},"

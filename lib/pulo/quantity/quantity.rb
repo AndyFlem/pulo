@@ -16,22 +16,22 @@ module Pulo
 
     def synonyms; @synonyms ||=[]; end
 
-    def best_si_unit_for_pair quan1,quan2
+    def best_si_unit_for_pair(quan1, quan2)
       av=(quan1.base_unit_scale+quan2.base_unit_scale)/2
       best_si_unit av
     end
-    def best_si_unit scale
+    def best_si_unit(scale)
       @si_unit_scales.min_by do |unit|
         (scale-unit[0]).abs
       end[1]
     end
-    def to_s
-      ret=''
-      ret+="#{self.name.split(/::/)[1]}"
-      ret+=" #{self.synonyms.to_s}\n"
-      ret+="Dimensions: #{self.dimensions.to_s}\n"
-      ret+=self.units.inject('') {|mm,unt| mm+='     ' + unt[1].to_s + "\n"}
-    end
+    #def to_s
+    #  ret=''
+    #  ret+="#{self.name.split(/::/)[1]}"
+    #  ret+=" #{self.synonyms.to_s}\n"
+    #  ret+="Dimensions: #{self.dimensions.to_s}\n"
+    #  ret+=self.units.inject('') {|mm,unt| mm+='     ' + unt[1].to_s + "\n"}
+    #end
     def conversions_list
       obj=self.new(1)
       self.units.map do |unt|
@@ -59,7 +59,7 @@ module Pulo
     @unit=val
   end
 
-  def initialize value=nil,unit=nil
+  def initialize(value=nil, unit=nil)
     value=1.0 if value.nil?
     if unit
       if unit.is_a?(Symbol)
@@ -83,6 +83,9 @@ module Pulo
 
   def inverse
     Dimensionless.new/self
+  end
+  def -@
+    self.class.new -self.value,self.unit
   end
   def +(other)
     case
@@ -115,7 +118,7 @@ module Pulo
   def *(other)
     case
       when other.is_a?(Numeric)
-        obj=self.class.new self.value*other,self.unit
+        self.class.new self.value*other,self.unit
       when other.is_a?(Quantity)
         new_dims=self.class.dimensions+other.class.dimensions
 
@@ -133,7 +136,7 @@ module Pulo
   def /(other)
     case
       when other.is_a?(Numeric)
-        obj=self.class.new self.value/other,self.unit
+        self.class.new self.value/other,self.unit
       when other.is_a?(Quantity)
         new_dims=self.class.dimensions-other.class.dimensions
 
@@ -148,7 +151,7 @@ module Pulo
     end
   end
   def **(power)
-    raise  QuantitiesException.new("Can only raise a quantity to an integer power") unless power.is_a?(Fixnum)
+    raise  QuantitiesException.new('Can only raise a quantity to an integer power') unless power.is_a?(Fixnum)
 
     new_dims=self.class.dimensions*power
     q1=self; q1=q1.to_si unless q1.is_si?
@@ -159,7 +162,7 @@ module Pulo
     existing_or_new_quantity new_dims,target_scale,target_value
   end
   def rt(power)
-    raise  QuantitiesException.new("Can only do integer roots") unless power.is_a?(Fixnum)
+    raise  QuantitiesException.new('Can only do integer roots') unless power.is_a?(Fixnum)
 
     new_dims=self.class.dimensions/power
     q1=self; q1=q1.to_si unless q1.is_si?
@@ -169,24 +172,24 @@ module Pulo
     existing_or_new_quantity new_dims,target_scale,target_value
   end
   def <=>(other)
-    raise  QuantitiesException.new("Can only compare quantities with same dimensions") unless other.is_a?(Quantity) && self.class.dimensions=other.class.dimensions
-    return to_base_unit.value<=>other.to_base_unit.value
+    raise  QuantitiesException.new('Can only compare quantities with same dimensions') unless other.is_a?(Quantity) && self.class.dimensions==other.class.dimensions
+    to_base_unit.value<=>other.to_base_unit.value
   end
 
-  def existing_or_new_quantity new_dims,target_scale,target_value
+  def existing_or_new_quantity(new_dims, target_scale, target_value)
     if Quantities.quantities[new_dims]
       klass=Quantities.quantities[new_dims][0]
       unit=klass.best_si_unit Math.log10(target_value.abs) + target_scale
-      return klass.new(target_value*10**(target_scale-unit.scale),unit)
+      klass.new(target_value*10**(target_scale-unit.scale), unit)
     else
-      qname=new_dims.to_s.gsub(/-/,'_')
+      qname=new_dims.to_s.gsub(/-/, '_')
       QuantityBuilder.build(qname) do
         dimensions new_dims.spec
-        si_unit '0.0'+qname, '',new_dims.to_s ,1.0
+        si_unit '0.0'+qname, '', new_dims.to_s, 1.0
         unless target_scale==0
-          si_unit target_scale.to_s+qname, '', new_dims.to_s+'*10^'+target_scale.to_s,1.0*10**target_scale
+          si_unit target_scale.to_s+qname, '', new_dims.to_s+'*10^'+target_scale.to_s, 1.0*10**target_scale
         end
-      end.klass.send(target_scale.to_s+qname,target_value)
+      end.klass.send(target_scale.to_s+qname, target_value)
     end
   end
 
@@ -195,7 +198,7 @@ module Pulo
   end
 
   def scale
-    raise "sure!"
+    raise 'sure!'
 
   end
 

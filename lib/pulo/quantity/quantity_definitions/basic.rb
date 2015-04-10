@@ -116,6 +116,8 @@ class Temperature
         self.class.new(self.value+273.15,:kelvin)
       when :fahrenheit
         self.class.new((5.0/9.0*(self.value-32.0))+273.15,:kelvin)
+      else
+        self
     end
   end
   def celsius
@@ -126,6 +128,8 @@ class Temperature
         self.class.new(self.value-273.15,:celsius)
       when :fahrenheit
         self.class.new((5.0/9.0*(self.value-32.0)),:celsius)
+      else
+        self
     end
   end
   def fahrenheit
@@ -136,6 +140,8 @@ class Temperature
         self.class.new((9.0/5.0*self.value)+32.0,:fahrenheit)
       when :kelvin
         self.class.new((9.0/5.0*(self.value-273.15))+32.0,:fahrenheit)
+      else
+        self
     end
   end
 end

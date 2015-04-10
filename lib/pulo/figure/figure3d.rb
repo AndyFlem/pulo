@@ -10,7 +10,7 @@ module Pulo
     attr_reader :radius,:diameter
     def initialize(radius: nil, diameter: nil, volume: nil)
       quantity_check [radius,Length] ,[diameter,Length], [volume, Volume]
-      raise "Need more arguments for Sphere" unless volume or diameter or radius
+      raise "Need more arguments for Sphere" unless volume || diameter || radius
       if volume
         @volume=volume
         @radius=(@volume*3/(Angle.pi*4)).rt(3)
@@ -35,19 +35,19 @@ module Pulo
 
     def initialize(length: nil, face: nil, volume: nil)
       quantity_check [length,Length] ,[face,Square], [volume, Volume]
-      raise "Cube needs volume or face or length." unless (length || volume || face)
+      raise 'Cube needs volume or face or length.' unless (length || volume || face)
 
       if volume
-        @volume=volume;
-        @length=volume.rt(3);
+        @volume=volume
+        @length=volume.rt(3)
         @face=Square.new(width: @length)
       elsif face
-        @face=face;
-        @length=@face.width;
+        @face=face
+        @length=@face.width
         @volume=@face.area*@length
       elsif length
-        @length=length;
-        @face=Square.new(width: @length);
+        @length=length
+        @face=Square.new(width: @length)
         @volume=@face.area*@length
       end
       @surfacearea=@face.area*6
@@ -58,7 +58,7 @@ module Pulo
     include Figure3D
     attr_reader :width, :length, :height, :faces
     def initialize(width: nil, height: nil, length: nil, volume: nil, face: nil)
-      raise "Cuboid needs width, length and height or volume and face or length and face." unless ((width && length && height) || (volume && face) || (length && face))
+      raise 'Cuboid needs width, length and height or volume and face or length and face.' unless ((width && length && height) || (volume && face) || (length && face))
 
       @faces=[]
       if width and length and height
@@ -96,8 +96,8 @@ module Pulo
     attr_reader :face, :length
     def initialize (face: nil, length: nil, volume: nil, radius: nil, diameter: nil)
       quantity_check [face,Circle] ,[length,Length] , [volume,Volume], [radius, Length], [diameter, Length]
-      raise "Cylinder needs length and face or volume and length or volume and radius or diameter." unless
-          (face and length) or (volume and length) or (volume and (radius or diameter)) or (length and (radius or diameter))
+      raise 'Cylinder needs length and face or volume and length or volume and radius or diameter.' unless
+          (face && length) || (volume && length) || (volume && (radius || diameter)) || (length && (radius || diameter))
 
       if face and length
         @face=face
@@ -133,7 +133,7 @@ module Pulo
     attr_reader :side_areas
     def initialize(face: nil, length: nil)
       quantity_check [face,Triangle] ,[length,Length]
-      raise "Prism needs a face and length." unless face and length
+      raise 'Prism needs a face and length.' unless face && length
       @face=face
       @length=length
       @volume=@face.area*@length
@@ -151,7 +151,7 @@ module Pulo
     attr_reader :base_area,:side_area,:top_area
     def initialize(face: nil, length: nil)
       quantity_check [face,Trapezoid] ,[length,Length]
-      raise "TrapezoidalPrism needs a face and length." unless face and length
+      raise 'TrapezoidalPrism needs a face and length.' unless face && length
       @face=face
       @length=length
       @volume=@face.area*@length

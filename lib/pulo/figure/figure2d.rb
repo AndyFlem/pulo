@@ -21,19 +21,18 @@ module Pulo
       Cylinder
     end
     def initialize(radius: nil, diameter: nil, area: nil)
-      raise "Circle needs area or diameter or radius." unless (area || diameter || radius)
-
+      raise 'Circle needs area or diameter or radius.' unless (area || diameter || radius)
       quantity_check [radius,Length] ,[diameter,Length] , [area,Area]
       if area
-        @area=area;
-        @radius=(@area/Math::PI).rt(2);
+        @area=area
+        @radius=(@area/Math::PI).rt(2)
         @diameter=@radius*2
       else
         if diameter
-          @diameter=diameter;
+          @diameter=diameter
           @radius=@diameter/2
         else
-          @radius=radius;
+          @radius=radius
           @diameter=@radius*2
         end
         @area=(@radius**2)*Math::PI
@@ -69,13 +68,12 @@ module Pulo
     end
     def initialize(area: nil, width: nil, height: nil)
       quantity_check [area,Area] ,[width,Length] , [height,Length]
-      raise "Rectangle needs width and height or area and width or height." unless (width && height) || (area && (width || height))
+      raise 'Rectangle needs width and height or area and width or height.' unless (width && height) || (area && (width || height))
       if area
         @area=area
-
         if width
           @width=width; @height=@area/@width
-        else height
+        else
           @height=height; @width=@area/@height
         end
       else
@@ -88,23 +86,26 @@ module Pulo
 
   class Triangle
     include Figure2D
-
     attr_reader :angles,:lengths
+
+    def extrusion_figure
+      Prism
+    end
     def initialize(angles: [], lengths: [], area: nil)
       quantity_check [area,Area] ,[angles,Array] , [lengths,Array]
 
-      raise "Need more arguments for triangle" unless (
+      raise 'Need more arguments for triangle' unless (
             ((not area) && angles.count+lengths.count>=3 && lengths.count>0) ||
             (area && (angles.count>=2 || lengths.count>=2 || (lengths.count==1 && angles.count>0)))
       )
       while lengths.count<3; lengths<<nil; end
       while angles.count<3; angles<<nil; end
 
-      lengthsCount=lengths.compact.count
-      anglesCount=angles.compact.count
+      lengths_count=lengths.compact.count
+      angles_count=angles.compact.count
       if area
         #area=area.value if area.is_a?(Area)
-        if anglesCount==2
+        if angles_count==2
           while angles[0].nil?
             angles=angles.unshift(angles.last).take(3)
             lengths=lengths.unshift(lengths.last).take(3)
@@ -115,14 +116,14 @@ module Pulo
           lengths[1]=k*Math.sin(angles[1])
           lengths[2]=k*Math.sin(angles[2])
         else
-          if lengthsCount==2
+          if lengths_count==2
             while lengths[0].nil? or lengths[1].nil?
               lengths=lengths.unshift(lengths.last).take(3)
               angles=angles.unshift(angles.last).take(3)
             end
-            angles[0]=AngleFromArea(area,lengths[0],lengths[1])
-            lengths[2]=LengthFromCosine(lengths[0],lengths[1],angles[0])
-            angles[1]=AngleFromSine(lengths[0],lengths[2],angles[0])
+            angles[0]=angle_from_area(area,lengths[0],lengths[1])
+            lengths[2]=length_from_cosine(lengths[0],lengths[1],angles[0])
+            angles[1]=angle_from_sine(lengths[0],lengths[2],angles[0])
             angles[2]=Angle.pi-angles[0]-angles[1]
           else
             while lengths[0].nil?
@@ -130,19 +131,19 @@ module Pulo
               angles=angles.unshift(angles.last).take(3)
             end
             if not angles[0].nil?
-              lengths[1]=LengthFromArea(area,lengths[0],angles[0])
-              lengths[2]=LengthFromCosine(lengths[0],lengths[1],angles[0])
-              angles[1]=AngleFromSine(lengths[0],lengths[2],angles[0])
+              lengths[1]=length_from_area(area,lengths[0],angles[0])
+              lengths[2]=length_from_cosine(lengths[0],lengths[1],angles[0])
+              angles[1]=angle_from_sine(lengths[0],lengths[2],angles[0])
               angles[2]=Angle.pi-angles[0]-angles[1]
             elsif not angles[1].nil?
-              #assume isocelese
+              #assume isosceles
               angles[0]=angles[2]=(Angle.pi-angles[1])/2
-              lengths[1]=LengthFromArea(area,lengths[0],angles[0])
-              lengths[2]=LengthFromCosine(lengths[0],lengths[1],angles[0])
+              lengths[1]=length_from_area(area,lengths[0],angles[0])
+              lengths[2]=length_from_cosine(lengths[0],lengths[1],angles[0])
             else
-              lengths[2]=LengthFromArea(area,lengths[0],angles[2])
-              lengths[1]=LengthFromCosine(lengths[0],lengths[2],angles[2])
-              angles[0]=AngleFromSine(lengths[2],lengths[1],angles[2])
+              lengths[2]=length_from_area(area,lengths[0],angles[2])
+              lengths[1]=length_from_cosine(lengths[0],lengths[2],angles[2])
+              angles[0]=angle_from_sine(lengths[2],lengths[1],angles[2])
               angles[1]=Angle.pi-angles[0]-angles[2]
             end
           end
@@ -150,27 +151,27 @@ module Pulo
 
         @area=area
       else
-        if lengthsCount==3
-          angles[0]=AngleFromCosine(lengths[2],lengths[0],lengths[1])
-          angles[1]=AngleFromSine(lengths[0],lengths[2],angles[0])
+        if lengths_count==3
+          angles[0]=angle_from_cosine(lengths[2],lengths[0],lengths[1])
+          angles[1]=angle_from_sine(lengths[0],lengths[2],angles[0])
           angles[2]=Angle.pi-angles[0]-angles[1]
-        elsif lengthsCount==2
+        elsif lengths_count==2
           while lengths[0].nil? or lengths[1].nil?
             lengths=lengths.unshift(lengths.last).take(3)
             angles=angles.unshift(angles.last).take(3)
           end
           if not angles[0].nil?
-            lengths[2]=LengthFromCosine(lengths[0],lengths[1],angles[0])
-            angles[1]=AngleFromSine(lengths[0],lengths[2],angles[0])
+            lengths[2]=length_from_cosine(lengths[0],lengths[1],angles[0])
+            angles[1]=angle_from_sine(lengths[0],lengths[2],angles[0])
             angles[2]=Angle.pi-angles[0]-angles[1]
           elsif not angles[1].nil?
-            angles[2]=AngleFromSine(lengths[1],lengths[0],angles[1])
+            angles[2]=angle_from_sine(lengths[1],lengths[0],angles[1])
             angles[0]=Angle.pi-angles[1]-angles[2]
-            lengths[2]=LengthFromSine(lengths[0],angles[0],angles[1])
+            lengths[2]=length_from_sine(lengths[0],angles[0],angles[1])
           else
-            angles[1]=AngleFromSine(lengths[0],lengths[1],angles[2])
+            angles[1]=angle_from_sine(lengths[0],lengths[1],angles[2])
             angles[0]=Angle.pi-angles[1]-angles[2]
-            lengths[2]=LengthFromSine(lengths[0],angles[0],angles[1])
+            lengths[2]=length_from_sine(lengths[0],angles[0],angles[1])
           end
         else
           while angles[0].nil? or angles[1].nil?
@@ -179,14 +180,14 @@ module Pulo
           end
           angles[2]=Angle.pi-angles[0]-angles[1]
           if not lengths[0].nil?
-            lengths[1]=LengthFromSine(lengths[0],angles[2],angles[1])
-            lengths[2]=LengthFromSine(lengths[0],angles[0],angles[1])
+            lengths[1]=length_from_sine(lengths[0],angles[2],angles[1])
+            lengths[2]=length_from_sine(lengths[0],angles[0],angles[1])
           elsif not lengths[1].nil?
-            lengths[0]=LengthFromSine(lengths[1],angles[1],angles[2])
-            lengths[2]=LengthFromSine(lengths[0],angles[0],angles[1])
+            lengths[0]=length_from_sine(lengths[1],angles[1],angles[2])
+            lengths[2]=length_from_sine(lengths[0],angles[0],angles[1])
           elsif not lengths[2].nil?
-            lengths[0]=LengthFromSine(lengths[2],angles[1],angles[0])
-            lengths[1]=LengthFromSine(lengths[0],angles[2],angles[1])
+            lengths[0]=length_from_sine(lengths[2],angles[1],angles[0])
+            lengths[1]=length_from_sine(lengths[0],angles[2],angles[1])
           end
         end
         @area=0.5*lengths[2]*lengths[0]*Math.sin(angles[2])
@@ -195,12 +196,12 @@ module Pulo
       @lengths=lengths
       @perimeter=@lengths[0]+@lengths[1]+@lengths[2]
     end
-    def LengthFromCosine(b,c,angA); Math.sqrt(b**2+c**2-(2*b*c*Math.cos(angA))); end
-    def AngleFromCosine(a,b,c); Math.acos((b**2+c**2-a**2)/(2*b*c)); end
-    def LengthFromSine(b,angA,angB); b/Math.sin(angB)*Math.sin(angA); end
-    def AngleFromSine(a,b,angB); Math.asin(a*Math.sin(angB)/b); end
-    def LengthFromArea(area,b,angC); (2*area)/(b*Math.sin(angC)); end
-    def AngleFromArea(area,a,b); Math.asin(2*area/(a*b)); end
+    def length_from_cosine(b,c,ang_a); Math.sqrt(b**2+c**2-(2*b*c*Math.cos(ang_a))); end
+    def angle_from_cosine(a,b,c); Math.acos((b**2+c**2-a**2)/(2*b*c)); end
+    def length_from_sine(b,ang_a,ang_b); b/Math.sin(ang_b)*Math.sin(ang_a); end
+    def angle_from_sine(a,b,ang_b); Math.asin(a*Math.sin(ang_b)/b); end
+    def length_from_area(area,b,ang_c); (2*area)/(b*Math.sin(ang_c)); end
+    def angle_from_area(area,a,b); Math.asin(2*area/(a*b)); end
   end
 
   class Trapezoid #isoscelese only
@@ -211,7 +212,7 @@ module Pulo
     end
     def initialize(angle: nil,height: nil,base: nil, area: nil,top: nil)
       quantity_check [angle,Angle] ,[height,Length] , [base,Length] , [top,Length], [area,Area]
-      raise "Need more arguments for trapezoid" unless ((angle and height and (base or top) or (base and top and height) or (area and base and top)))
+      raise 'Need more arguments for trapezoid' unless ((angle and height and (base or top) or (base and top and height) or (area and base and top)))
       if angle and height and (base or top)
         @angle=angle; @height=height
         @side_triangle=Triangle.new(angles: [@angle,nil,Angle.pi/2], lengths: [@height,nil,nil])
@@ -233,7 +234,7 @@ module Pulo
         @side_triangle=Triangle.new(angles: [Angle.pi/2], lengths: [@height,(@base-@top)/2])
         @side=@side_triangle.lengths[2]
       elsif area and angle and base
-        #To Do
+        #TODO: area and angle and base
 
         #@angle=angle; @area=area; @base=base
         #@height=(Math.sqrt((@base**2)+(4*Math.tan(@angle)*@area))-@base)/(2*Math.tan(@angle))

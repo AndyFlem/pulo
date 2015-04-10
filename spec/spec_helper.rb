@@ -1,2 +1,2 @@
 require 'simplecov'
-require 'pulo'
+require_relative '../lib/pulo'

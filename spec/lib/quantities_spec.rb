@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'spec_helper'
+require_relative '../../spec/spec_helper'
 
 module Pulo
 
