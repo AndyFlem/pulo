@@ -243,6 +243,9 @@ describe 'Quantities with same dimensions' do
   it 'should allow force*distance to be given as torque in Nm' do
     expect((Force.newtons(2)*Displacement.meters(2)).torque.to_s).to eq('Torque: 4 N.m')
   end
+  it '(and the reverse of) should allow force*distance to be given as torque in Nm' do
+    expect((Force.newtons(2)*Displacement.meters(2)).torque.energy.to_s).to eq('Energy: 4 J')
+  end
 end
 describe 'Special handling of psia/psig' do
   it 'should implicitly convert psig to psia' do
