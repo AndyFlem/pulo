@@ -5,6 +5,8 @@ require 'bigdecimal'
 require 'bigdecimal/util'
 
 require_relative 'pulo/helpers'
+require_relative 'pulo/formatting'
+require_relative 'pulo/quantity_checker'
 require_relative 'pulo/exceptions'
 
 require_relative 'pulo/quantity/quantities'
@@ -40,8 +42,15 @@ require_relative 'pulo/machine/hydraulics/pipe'
 
 require_relative 'pulo/quantity/numeric_overloads'
 
-#module pulo
-#  def help
+module Pulo
 
-#  end
-#end
+#Module instance variables to store global settings
+  class << self
+    attr_accessor :precision
+    attr_accessor :significant_figures
+    attr_accessor :supress_quantity_names
+  end
+end
+Pulo.precision = 2
+Pulo.significant_figures = false
+Pulo.supress_quantity_names = false

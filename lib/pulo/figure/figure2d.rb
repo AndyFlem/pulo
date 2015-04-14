@@ -2,7 +2,7 @@
 module Pulo
 
   module Figure2D
-
+    include Quantity_Checker
     attr_reader :area,:perimeter
     def * (other)
       if other.is_a?(Length)

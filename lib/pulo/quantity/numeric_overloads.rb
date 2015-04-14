@@ -84,7 +84,7 @@ class BigDecimal
   alias :old_minus :-
   def -(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1-other.to_base_unit.value)
+      Pulo::Dimensionless.new(self-other.to_base_unit.value)
     else
       self.old_minus(other)
     end
@@ -95,7 +95,7 @@ class Bignum
   alias :old_minus :-
   def -(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1-other.to_base_unit.value)
+      Pulo::Dimensionless.new(self-other.to_base_unit.value)
     else
       self.old_minus(other)
     end
@@ -106,7 +106,7 @@ class Fixnum
   alias :old_minus :-
   def -(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1-other.to_base_unit.value)
+      Pulo::Dimensionless.new(self-other.to_base_unit.value)
     else
       self.old_minus(other)
     end
@@ -117,7 +117,7 @@ class Float
   alias :old_minus :-
   def -(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1-other.to_base_unit.value)
+      Pulo::Dimensionless.new(self-other.to_base_unit.value)
     else
       self.old_minus(other)
     end
@@ -128,7 +128,7 @@ class BigDecimal
   alias :old_plus :+
   def +(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1+other.to_base_unit.value)
+      Pulo::Dimensionless.new(self+other.to_base_unit.value)
     else
       self.old_plus(other)
     end
@@ -139,7 +139,7 @@ class Bignum
   alias :old_plus :+
   def +(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1+other.to_base_unit.value)
+      Pulo::Dimensionless.new(self+other.to_base_unit.value)
     else
       self.old_plus(other)
     end
@@ -150,7 +150,7 @@ class Fixnum
   alias :old_plus :+
   def +(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1+other.to_base_unit.value)
+      Pulo::Dimensionless.new(self+other.to_base_unit.value)
     else
       self.old_plus(other)
     end
@@ -161,7 +161,7 @@ class Float
   alias :old_plus :+
   def +(other)
     if other.is_a?(Pulo::Dimensionless)
-      Pulo::Dimensionless.new(1+other.to_base_unit.value)
+      Pulo::Dimensionless.new(self+other.to_base_unit.value)
     else
       self.old_plus(other)
     end

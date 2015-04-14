@@ -2,6 +2,7 @@
 module Pulo
 
   module Figure3D
+    include Quantity_Checker
     attr_reader :volume, :surfacearea
   end
 

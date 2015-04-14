@@ -31,5 +31,29 @@ module Pulo
       expect(Math.asin(@dimless2).to_s).to eq("Angle: 0.52 rad")
       expect(Math.atan(@dimless2).to_s).to eq("Angle: 0.55 rad")
     end
+    it 'should allow scalar+dimensionless' do
+      expect((10+Dimensionless.n(10)).to_s).to eq("Dimensionless: 20 ")
+      expect((10.1+Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10.2 ")
+      expect((BigDecimal(10.1,3)+Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10.2 ")
+      expect(((10000000**2)+Dimensionless.n(10)).to_s).to eq("Dimensionless: 100,000,000,000,010 ")
+    end
+    it 'should allow scalar-dimensionless' do
+      expect((10-Dimensionless.n(1)).to_s).to eq("Dimensionless: 9 ")
+      expect((10.1-Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10 ")
+      expect((BigDecimal(10.1,3)-Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10 ")
+      expect(((10000000**2)-Dimensionless.n(10)).to_s).to eq("Dimensionless: 99,999,999,999,990 ")
+    end
+    it 'should allow scalar/quantity' do
+      expect((2/Period.milliseconds(100)).to_s).to eq('Frequency: 20 Hz')
+      expect((2.5/Period.milliseconds(100)).to_s).to eq('Frequency: 25 Hz')
+      expect((BigDecimal(2.5,2)/Period.milliseconds(100)).to_s).to eq('Frequency: 25 Hz')
+      expect((200000000**2/Period.milliseconds(100)).to_s).to eq('Frequency: 400,000,000,000,000,000 Hz')
+    end
+    it 'should allow scalar*quantity' do
+      expect((2*Period.milliseconds(100)).to_s).to eq('Period: 200 ms')
+      expect((2.5*Period.milliseconds(100)).to_s).to eq('Period: 250 ms')
+      expect((BigDecimal(2.5,2)*Period.milliseconds(100)).to_s).to eq('Period: 250 ms')
+      expect((200000000**2*Period.milliseconds(100)).to_s).to eq('Period: 4,000,000,000,000,000,000 ms')
+    end
   end
 end
