@@ -29,23 +29,23 @@ module Pulo
     def dimensions(*dims)
       spec=Dimension.new(dims[0])
       @klass.dimensions=spec
-      if Quantities.quantities[spec]
+      if Pulo.quantities[spec]
         other_klass=@klass
-        Quantities.quantities[spec].each do |quan_klass|
+        Pulo.quantities[spec].each do |quan_klass|
           quan_klass.send :define_method, @klass.quantity_name.downcase do
             other_unit=other_klass.si_unit_scales[self.unit.scale]
             other_unit=other_klass.best_si_unit(Math.log10(self.value)+self.unit.scale) unless other_unit
             return other_klass.new(self.value*10**(self.unit.scale-other_unit.scale),other_unit)
           end
         end
-        Quantities.quantities[spec] << @klass
+        Pulo.quantities[spec] << @klass
       else
-        Quantities.quantities.merge!({spec=>[@klass]})
+        Pulo.quantities.merge!({spec=>[@klass]})
       end
 
-      if spec.is_base?
-        Quantities.base_units.merge!({spec.spec.first[0]=>@klass})
-      end
+      #if spec.is_base?
+      #  Pulo.base_units.merge!({spec.spec.first[0]=>@klass})
+      #end
     end
 
     def constant(name,symbol,unit,value)
@@ -144,10 +144,10 @@ module Pulo
       end
     end
 
-    def synonyms(*syns)
-      syns.each do |syn|
-        @klass.synonyms << syn
-        Pulo.const_set(syn,@klass.clone)
+    def synonyms(*synonyms)
+      synonyms.each do |synonym|
+        @klass.synonyms << synonym
+        Pulo.const_set(synonym,@klass.clone)
       end
     end
 

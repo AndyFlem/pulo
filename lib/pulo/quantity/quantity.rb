@@ -163,8 +163,8 @@ module Pulo
     end
 
     def existing_or_new_quantity(new_dims, target_scale, target_value)
-      if Quantities.quantities[new_dims]
-        klass=Quantities.quantities[new_dims][0]
+      if Pulo.quantities[new_dims]
+        klass=Pulo.quantities[new_dims][0]
         unit=klass.best_si_unit Math.log10(target_value.abs) + target_scale
         klass.new(target_value*10**(target_scale-unit.scale), unit)
       else
