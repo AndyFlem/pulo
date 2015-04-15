@@ -3,6 +3,7 @@
 require_relative '../../spec/spec_helper'
 
 module Pulo
+
   describe Sphere do
     it 'should create a sphere from a radius' do
       expect(Sphere.new(radius: Length.meters(1)).volume.to_s).to eq("Volume: 4.19 m\u00B3")

@@ -55,11 +55,10 @@ require_relative 'pulo/quantity/quantity_definitions/value'
 
 require_relative 'pulo/quantity/quantity_groups/quantity_groups'
 
-require_relative 'pulo/material/water_steam'
-require_relative 'pulo/material/water'
-
 require_relative 'pulo/figure/figure2d'
 require_relative 'pulo/figure/figure3d'
+
+require_relative 'pulo/machine/steam/water_steam'
 
 require_relative 'pulo/machine/steam/boiler'
 require_relative 'pulo/machine/steam/deaerator'
