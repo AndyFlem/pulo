@@ -67,6 +67,9 @@ module Pulo
     def to; self; end
     def in; self; end
 
+    def to_f
+      self.class.new(self.value.to_f,self.unit)
+    end
     def inverse
       Dimensionless.new/self
     end
