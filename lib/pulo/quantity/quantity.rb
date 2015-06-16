@@ -67,6 +67,12 @@ module Pulo
     def to; self; end
     def in; self; end
 
+    def method_missing(method_sym, *arguments, &block)
+      if self.value.respond_to?(method_sym)
+        self.value.send(method_sym,*arguments,&block)
+      end
+    end
+
     def to_f
       self.class.new(self.value.to_f,self.unit)
     end
