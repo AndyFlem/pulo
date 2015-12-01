@@ -19,21 +19,6 @@ module Pulo
 
     def quantities; @quantities||={};end #hash with dimension_spec as the key
     #def base_units; @base_units||={};end
-
-    #      def help
-    #        mem=""
-    #        @quantities.each do |quan|
-    #          mem+=quan[0].to_s + ":\n"
-    #          quan[1].each do |qu|
-    #            mem += "\t" + qu.quantity_name + " "
-    #            qu.synonyms.each do |syn|
-    #              mem += syn.to_s.gsub(':','') + " "
-    #            end
-    #            mem += "\n"
-    #          end
-    #        end
-    #        mem
-    #      end
   end
 end
 Pulo.precision = 2
@@ -69,6 +54,3 @@ require_relative 'pulo/machine/steam/steam_process'
 require_relative 'pulo/machine/steam/steam_turbine'
 
 require_relative 'pulo/quantity/numeric_overloads'
-
-
-
