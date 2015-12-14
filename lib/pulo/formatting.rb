@@ -1,36 +1,38 @@
 # encoding: utf-8
 
 module Pulo
-  def super_digit(val)
-    val.to_s.chars.inject('') do |res, chr|
-      res+= case chr
-              when '.'
-                "\u207B".encode('utf-8')
-              when '-'
-                "\u207B".encode('utf-8')
-              when '1'
-                "\u00B9".encode('utf-8')
-              when '2'
-                "\u00B2".encode('utf-8')
-              when '3'
-                "\u00B3".encode('utf-8')
-              when '0'
-                "\u2070".encode('utf-8')
-              when '4'
-                "\u2074".encode('utf-8')
-              when '5'
-                "\u2075".encode('utf-8')
-              when '6'
-                "\u2076".encode('utf-8')
-              when '7'
-                "\u2077".encode('utf-8')
-              when '8'
-                "\u2078".encode('utf-8')
-              when '9'
-                "\u2079".encode('utf-8')
-              else
-                ''
-            end
+  class << self
+    def super_digit(val)
+      val.to_s.chars.inject('') do |res, chr|
+        res+= case chr
+                when '.'
+                  "\u207B".encode('utf-8')
+                when '-'
+                  "\u207B".encode('utf-8')
+                when '1'
+                  "\u00B9".encode('utf-8')
+                when '2'
+                  "\u00B2".encode('utf-8')
+                when '3'
+                  "\u00B3".encode('utf-8')
+                when '0'
+                  "\u2070".encode('utf-8')
+                when '4'
+                  "\u2074".encode('utf-8')
+                when '5'
+                  "\u2075".encode('utf-8')
+                when '6'
+                  "\u2076".encode('utf-8')
+                when '7'
+                  "\u2077".encode('utf-8')
+                when '8'
+                  "\u2078".encode('utf-8')
+                when '9'
+                  "\u2079".encode('utf-8')
+                else
+                  ''
+              end
+      end
     end
   end
 
@@ -38,15 +40,6 @@ module Pulo
     def self.convert(number, precision)
 
       precision ||= Pulo.precision
-
-      case number
-        when Float, String
-          @number = BigDecimal(number.to_s)
-        when Rational
-          @number = BigDecimal(number, digit_count(number.to_i) + precision)
-        else
-          @number = number.to_d
-      end
 
       if Pulo.significant_figures && precision > 0
         digits, rounded_number = digits_and_rounded_number(number, precision)
@@ -57,14 +50,7 @@ module Pulo
         rounded_number = rounded_number.to_i if precision == 0
         rounded_number = rounded_number.abs if rounded_number.zero? # prevent showing negative zeros
       end
-      formatted_string =
-          if BigDecimal === rounded_number && rounded_number.finite?
-            s = rounded_number.to_s('F') + '0'*precision
-            a, b = s.split('.', 2)
-            a + '.' + b[0, precision]
-          else
-            "%00.#{precision}f" % rounded_number
-          end
+      formatted_string = "%00.#{precision}f" % rounded_number
 
       delimited_number = NumberToDelimitedConverter.convert(formatted_string)
       format_number(delimited_number)
@@ -126,16 +112,16 @@ module Pulo
 
 end
 
-class BigDecimal
-  DEFAULT_STRING_FORMAT = 'F'
-  def to_formatted_s(*args)
-    if args[0].is_a?(Symbol)
-      super
-    else
-      format = args[0] || DEFAULT_STRING_FORMAT
-      _original_to_s(format)
-    end
-  end
-  alias_method :_original_to_s, :to_s
-  alias_method :to_s, :to_formatted_s
-end
+#class BigDecimal
+#  DEFAULT_STRING_FORMAT = 'F'
+#  def to_formatted_s(*args)
+#    if args[0].is_a?(Symbol)
+#      super
+#    else
+#      format = args[0] || DEFAULT_STRING_FORMAT
+#      _original_to_s(format)
+#    end
+#  end
+#  alias_method :_original_to_s, :to_s
+#  alias_method :to_s, :to_formatted_s
+#end

@@ -18,7 +18,26 @@ module Pulo
     attr_accessor :supress_quantity_names
 
     def quantities; @quantities||={};end #hash with dimension_spec as the key
-    #def base_units; @base_units||={};end
+
+    def help
+      @quantities.each do |dim|
+
+        dim[1].each do |quan|
+          names=quan.quantity_name
+          if quan.synonyms.length>0
+            names += ', ' + quan.synonyms.join(', ')
+          end
+
+          puts names
+          puts '---------------------------------------------------------------------------------------'
+          puts '[' + dim[0].to_s + ']'
+          puts quan.units_sorted #.each do |unit_def|
+            #puts unit_def
+          #end
+          puts ''
+        end
+      end
+    end
   end
 end
 Pulo.precision = 2
@@ -54,3 +73,10 @@ require_relative 'pulo/machine/steam/steam_process'
 require_relative 'pulo/machine/steam/steam_turbine'
 
 require_relative 'pulo/quantity/numeric_overloads'
+
+require_relative 'pulo/frames/frame'
+require_relative 'pulo/frames/frame_cell'
+require_relative 'pulo/frames/frame_row'
+require_relative 'pulo/frames/frame_column'
+
+require_relative 'pulo/tables/tables'

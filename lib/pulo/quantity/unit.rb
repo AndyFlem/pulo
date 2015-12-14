@@ -15,7 +15,13 @@ module Pulo
       @name, @plural, @abbreviation=name, plural, abbreviation
     end
     def to_s
-      name.to_s + ', ' + plural + ', ' + abbreviation
+      ret=abbreviation.ljust(12,' ') + name.to_s.ljust(30) + plural.ljust(30)
+      if self.is_si?
+        ret+='*10^' + self.scale.round(2).to_s.ljust(7,' ')
+      else
+        ret+=self.si_convert_factor.round(4).to_s + ' per ' + self.si_convert_unit.to_s
+      end
+
     end
   end
 

@@ -274,4 +274,26 @@ describe 'Angles should be as expected' do
   end
 end
 
+describe 'Formatting' do
+  it 'should handle sig figs and precision' do
+    Pulo.significant_figures=true;
+    Pulo.precision=6;
+
+    expect((Length.chains(2).to_si).to_s).to eq('Length: 40.2336 m')
+    Pulo.significant_figures=false;
+    Pulo.precision=2;
+  end
+
+  it 'should allow output without quantity names' do
+    Pulo.supress_quantity_names=true;
+    expect((Length.chains(2).to_si).to_s).to eq('40.23 m')
+    Pulo.supress_quantity_names=false;
+  end
+
+  it 'should handle zero' do
+    expect((Length.meters(0.0)).to_s).to eq('Length: 0 m')
+  end
+
+end
+
 end

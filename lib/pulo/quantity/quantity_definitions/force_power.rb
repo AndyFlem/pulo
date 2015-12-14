@@ -5,7 +5,7 @@ module Pulo
 QuantityBuilder.build(:Force) do
   dimensions M:1,L:1,T:-2
 
-  si_unit :millinewton,:s, 'N',10**-3
+  si_unit :millinewton,:s, 'mN',10**-3
   si_unit :newton,:s, 'N',1
   si_unit :kilonewton,:s, 'kN',10**3
   si_unit :meganewton,:s, 'MN',10**6

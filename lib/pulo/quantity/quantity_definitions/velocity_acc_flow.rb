@@ -45,11 +45,11 @@ end
 
 QuantityBuilder.build(:VolumeFlow) do
   dimensions L:3,T:-1
-  si_unit :cubic_meter_per_year,:ss, 'm³.yr⁻¹',1.0/(3600*24*365)
-  si_unit :cubic_meter_per_day,:ss, 'm³.day⁻¹',1.0/(3600*24)
-  si_unit :cubic_meter_per_hour,:ss, 'm³.hr⁻¹',1.0/3600
-  si_unit :cubic_meter_per_second,:ss, 'cumec',1
-  si_unit :cubic_centimeter_per_second,:ss, 'cm³.s⁻¹',10**-6
+  si_unit :cubic_meter_per_year,:cubic_meters_per_year, 'm³.yr⁻¹',1.0/(3600*24*365)
+  si_unit :cubic_meter_per_day,:cubic_meters_per_day, 'm³.day⁻¹',1.0/(3600*24)
+  si_unit :cubic_meter_per_hour,:cubic_meters_per_hour, 'm³.hr⁻¹',1.0/3600
+  si_unit :cubic_meter_per_second,:cubic_meters_per_second, 'cumec',1
+  si_unit :cubic_centimeter_per_second,:cubic_centimeters_per_second, 'cm³.s⁻¹',10**-6
 
   non_si_unit :litre_per_second,:sf, 'lt.s⁻¹',:cubic_meter_per_second,10**3
   non_si_unit :litre_per_hour,:sf, 'lt.hr⁻¹',:cubic_meter_per_hour,10**3

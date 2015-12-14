@@ -28,15 +28,34 @@ module Pulo
       #  ret+=self.units.inject('') {|mm,unt| mm+='     ' + unt[1].to_s + "\n"}
       #end
 
-      def conversions_list
-        obj=self.new(1)
-        self.units.map do |unt|
-            obj.send(unt[0]).to_s
-        end
-      end
+      #def conversions_list
+      #  obj=self.new(1)
+      #  self.units.map do |unt|
+      #      obj.send(unt[0]).to_s
+      #  end
+      #end
 
       def quantity_name
         self.name.split('::')[1]
+      end
+
+      def units_sorted
+        self.units.values.sort do |a,b|
+          next -1 if a.is_si? && !b.is_si?
+
+          next 1 if !a.is_si? && b.is_si?
+
+          if a.is_si?
+            next -1 if a.scale<b.scale
+            next 1
+          else
+            if a.si_convert_unit==b.si_convert_unit
+              next a.si_convert_factor<=>b.si_convert_factor
+            else
+              a.si_convert_unit<=>b.si_convert_unit
+            end
+          end
+        end
       end
     end
 
@@ -67,15 +86,16 @@ module Pulo
     def to; self; end
     def in; self; end
 
+    #Pass unknown methods through to the underlying value (Float) if it responds. eg floor and modulo methods
     def method_missing(method_sym, *arguments, &block)
       if self.value.respond_to?(method_sym)
         self.value.send(method_sym,*arguments,&block)
       end
     end
 
-    def to_f
-      self.class.new(self.value.to_f,self.unit)
-    end
+    #def to_f
+    #  self.class.new(self.value.to_f,self.unit)
+    #end
     def inverse
       Dimensionless.new/self
     end
