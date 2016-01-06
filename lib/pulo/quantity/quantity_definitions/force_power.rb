@@ -15,6 +15,16 @@ QuantityBuilder.build(:Force) do
 
 end
 
+QuantityBuilder.build(:Momentum) do
+  dimensions M:1,L:1,T:-1
+
+  si_unit :millinewton_second,:s, 'mN.s',10**-3
+  si_unit :newton_second,:s, 'N.s',1
+  si_unit :kilonewton_second,:s, 'kN.s',10**3
+  si_unit :meganewton_second,:s, 'MN.s',10**6
+
+end
+
 QuantityBuilder.build(:Power) do
   dimensions M:1,L:2,T:-3
 

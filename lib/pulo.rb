@@ -3,6 +3,7 @@
 require_relative 'pulo/version'
 require 'bigdecimal'
 require 'bigdecimal/util'
+require 'yaml'
 
 require_relative 'pulo/helpers'
 require_relative 'pulo/formatting'
@@ -55,6 +56,8 @@ require_relative 'pulo/quantity/quantity_definitions/area_volume'
 require_relative 'pulo/quantity/quantity_definitions/velocity_acc_flow'
 require_relative 'pulo/quantity/quantity_definitions/force_power'
 require_relative 'pulo/quantity/quantity_definitions/energy'
+require_relative 'pulo/quantity/quantity_definitions/rotation'
+require_relative 'pulo/quantity/quantity_definitions/fluids'
 require_relative 'pulo/quantity/quantity_definitions/value'
 
 require_relative 'pulo/quantity/quantity_groups/quantity_groups'
@@ -71,6 +74,8 @@ require_relative 'pulo/machine/steam/desuperheater'
 require_relative 'pulo/machine/steam/header'
 require_relative 'pulo/machine/steam/steam_process'
 require_relative 'pulo/machine/steam/steam_turbine'
+
+require_relative 'pulo/machine/mechanics/moments_of_inertia'
 
 require_relative 'pulo/quantity/numeric_overloads'
 

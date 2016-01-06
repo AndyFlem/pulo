@@ -3,8 +3,8 @@ require 'descriptive_statistics'
 module Pulo
   class FrameColumn
 
-    attr_reader :name,:formula,:column_number,:recalc_required, :formatter
-    attr_accessor :width,:column_class
+    attr_reader :name,:formula,:column_number,:recalc_required, :formatter, :column_class
+    attr_accessor :width
 
     def initialize(name,parent_frame,column_number,hidden,&formula)
       @name=name
@@ -19,6 +19,12 @@ module Pulo
       @width=3
     end
 
+    def column_class= (klass)
+      @column_class=klass
+      if @column_class.respond_to?(:quantity_name)
+        @formatter=lambda {|q| q.to_s(nil,true)}
+      end
+    end
     def formatter= (lamb)
       @formatter=lamb
     end

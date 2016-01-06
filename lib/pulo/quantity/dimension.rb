@@ -39,13 +39,20 @@ module Pulo
   def hash
     @spec.to_s.hash
   end
-  def to_s
+  def to_s(supress_pretty=false)
     sort_spec=@spec.sort_by { |item| item[1]*-1}
 
-    sort_spec.inject('') do |ret,item|
-      exp=if item[1]!=1 then Pulo.super_digit(item[1]) else '' end
-      ret+=item[0].to_s + exp + '.'
-    end[0..-2]
+    if supress_pretty
+      sort_spec.inject('') do |ret,item|
+        ret+=item[0].to_s + item[1].to_s
+      end
+    else
+      sort_spec.inject('') do |ret,item|
+        exp=if item[1]!=1 then Pulo.super_digit(item[1]) else '' end
+        ret+=item[0].to_s + exp + '.'
+      end[0..-2]
+    end
+
   end
 
   private

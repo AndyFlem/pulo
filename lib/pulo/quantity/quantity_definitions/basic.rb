@@ -7,6 +7,7 @@ module Pulo
     si_unit :percent, :percent, 'pct', 0.01
     synonyms :Efficiency, :Ratio, :Factor, :Count
   end
+
   QuantityBuilder.build(:Angle) do
     dimensions L: 0
     si_unit :radian, :radians, 'rad', 1
@@ -14,6 +15,15 @@ module Pulo
 
     constant :pi, 'pi', :radian, Math::PI
   end
+  class Angle
+    def self.percent value
+      Angle.radians(Math::atan(value/100.0)).degrees
+    end
+    def self.one_in value
+      Angle.radians(Math::atan(1.0/value)).degrees
+    end
+  end
+
   QuantityBuilder.build(:Length) do
     dimensions L: 1
     si_unit :meter, :s, 'm', 1.0
@@ -68,11 +78,7 @@ module Pulo
     si_unit :kilohertz, :kilohertz, 'kHz', 10**3
     si_unit :megahertz, :megahertz, 'MHz', 10**6
 
-    non_si_unit :percent_per_year, :percent_per_year, 'pct.yr⁻¹', :hertz, (60*60*24*365)*100
-    non_si_unit :percent_per_month, :percent_per_month, 'pct.mnt⁻¹', :hertz, (60*60*24*365)*100/12
-
-    synonyms :InterestRate
-  end
+ end
 
   QuantityBuilder.build(:Mass) do
     dimensions M: 1

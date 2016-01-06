@@ -23,14 +23,6 @@ QuantityBuilder.build(:Energy) do
 
   synonyms :Enthalpy
 end
-QuantityBuilder.build(:Torque) do
-  dimensions M:1,L:2,T:-2
-
-  si_unit :millinewton_meter,:s, 'mN.m',10**-3
-  si_unit :newton_meter,:s, 'N.m',1
-  si_unit :kilonewton_meter,:s, 'kN.m',10**3
-  si_unit :meganewton_meter,:s, 'MN.m',10**6
-end
 QuantityBuilder.build(:SpecificEnergy) do
   dimensions L:2,T:-2
   si_unit :joule_per_kilogram,:sf,'J.kg⁻¹',1

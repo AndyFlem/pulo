@@ -135,21 +135,27 @@ module Pulo
         @rows<<row
         @row_count+=1
         row
+      else
+        raise "Expecting an array of values as the append row."
       end
     end
     def insert_row(previous_row,values)
-      row_no=previous_row.row_number+1
-      vals=values.each
-      row=FrameRow.new(self,row_no)
-      @columns.each do |col|
-        v = col.value_column? ? vals.next : nil
-        cell=FrameCell.new(col,row,v)
-        col.insert_row(row_no,cell)
-        row.append_column(cell)
+      if values.is_a?(Array)
+        row_no=previous_row.row_number+1
+        vals=values.each
+        row=FrameRow.new(self,row_no)
+        @columns.each do |col|
+          v = col.value_column? ? vals.next : nil
+          cell=FrameCell.new(col,row,v)
+          col.insert_row(row_no,cell)
+          row.append_column(cell)
+        end
+        @rows.insert(row_no,row)
+        @row_count+=1
+        @rows.drop(row_no+1).each {|r| r.row_number+=1}
+      else
+        raise "Expecting an array of values as the append row."
       end
-      @rows.insert(row_no,row)
-      @row_count+=1
-      @rows.drop(row_no+1).each {|r| r.row_number+=1}
     end
 
     def recalc_all
@@ -185,7 +191,19 @@ module Pulo
       ret+='========= '
       ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'=')}.join('= ') + "\n"
       ret+='          '
-      ret+=@columns.select {|c| !c.hidden?}.map{|s| s.type.ljust(s.width,' ')}.join('  ') + "\n"
+      ret+=@columns.select {|c| !c.hidden?}.map{|s|
+        if s.type=='value'
+          if s.column_class.respond_to?(:quantity_name)
+            s.column_class.quantity_name.ljust(s.width,' ')
+          else
+            s.column_class.to_s.ljust(s.width,' ')
+          end
+
+        else
+          s.type.ljust(s.width,' ')
+        end
+
+      }.join('  ') + "\n"
       ret+='--------- '
       ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'-')}.join('- ') + "\n"
 

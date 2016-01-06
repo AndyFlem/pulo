@@ -79,8 +79,8 @@ module Pulo
       self
     end
 
-    def to_s(precision=nil)
-      "#{self.class.quantity_name + ': ' unless Pulo.supress_quantity_names}#{NumberToRoundedConverter.convert(@value,precision)} #{@unit.abbreviation}"
+    def to_s(precision=nil, supress_quantity_names=false)
+      "#{self.class.quantity_name + ': ' unless Pulo.supress_quantity_names || supress_quantity_names}#{NumberToRoundedConverter.convert(@value,precision)} #{@unit.abbreviation}"
     end
 
     def to; self; end
@@ -197,7 +197,7 @@ module Pulo
         unit=klass.best_si_unit Math.log10(target_value.abs) + target_scale
         klass.new(target_value*10**(target_scale-unit.scale), unit)
       else
-        qname=new_dims.to_s.gsub(/-/, '_')
+        qname=new_dims.to_s(true).gsub(/-/, '_')
         QuantityBuilder.build(qname) do
           dimensions new_dims.spec
           si_unit '0.0'+qname, '', new_dims.to_s, 1.0

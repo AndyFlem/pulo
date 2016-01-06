@@ -42,9 +42,11 @@ module Pulo
     end
 
     def value=(val)
-      @value=val
       @parent_column.column_class||=val.class
-      raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}." if val.class!=@parent_column.column_class
+      raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}." if
+          val.class!=@parent_column.column_class
+
+      @value=val
 
       #@parent_column.width=max(@parent_column.width,self.to_s.length)
     end
