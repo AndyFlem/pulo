@@ -185,7 +185,7 @@ describe 'Fixnum overloads for division' do
     expect((5.0/Period.seconds(2)).to_s).to eq('Frequency: 2.5 Hz')
   end
   it 'should deal with bignum * quantity' do
-    expect((10**10/Area.square_centimeters(2)).to_s).to eq('L_2: 5,000,000,000 L-2*10^4.0')
+    expect((10**10/Area.square_centimeters(2)).to_s).to eq('L_2: 5,000,000,000 L⁻²*10^4.0')
   end
 end
 
