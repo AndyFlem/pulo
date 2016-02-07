@@ -20,21 +20,6 @@ module Pulo
         end[1]
       end
 
-      #def to_s
-      #  ret=''
-      #  ret+="#{self.name.split(/::/)[1]}"
-      #  ret+=" #{self.synonyms.to_s}\n"
-      #  ret+="Dimensions: #{self.dimensions.to_s}\n"
-      #  ret+=self.units.inject('') {|mm,unt| mm+='     ' + unt[1].to_s + "\n"}
-      #end
-
-      #def conversions_list
-      #  obj=self.new(1)
-      #  self.units.map do |unt|
-      #      obj.send(unt[0]).to_s
-      #  end
-      #end
-
       def quantity_name
         self.name.split('::')[1]
       end
@@ -68,6 +53,7 @@ module Pulo
       value ||= 1.0
       if unit
         if unit.is_a?(Symbol)
+          raise "Unit #{unit.to_s} not defined for #{self.class.quantity_name}." unless self.class.units[unit]
           self.unit=self.class.units[unit]
         else
           self.unit=unit
@@ -93,9 +79,6 @@ module Pulo
       end
     end
 
-    #def to_f
-    #  self.class.new(self.value.to_f,self.unit)
-    #end
     def inverse
       Dimensionless.new/self
     end

@@ -13,6 +13,7 @@ QuantityBuilder.build(:Velocity) do
 
 
   constant :speed_of_light, 'c',:meter_per_second,299792458
+  constant :speed_of_sound, 'c',:meter_per_second,343.2
 
   synonyms :Speed
 end

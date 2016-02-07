@@ -5,7 +5,20 @@ module Pulo
 QuantityBuilder.build(:AngularVelocity) do
   dimensions T:-1
   si_unit :radian_per_second,:sf, 'rad.s⁻¹',1
+  non_si_unit :rpm, :rpm, 'rpm', :radian_per_second, 60/(2*Math::PI)
+
 end
+#overide the standard methods for conversion between AngularVelocity and Frequency as it is not 1 to 1
+  class AngularVelocity
+    def frequency
+      Frequency.hertz(self.radian_per_second.value/(Math::PI*2))
+    end
+  end
+  class Frequency
+    def angularvelocity
+      AngularVelocity.radian_per_second(self.hertz.value*(Math::PI*2))
+    end
+  end
 
 QuantityBuilder.build(:AngularAcceleration) do
   dimensions T:-2

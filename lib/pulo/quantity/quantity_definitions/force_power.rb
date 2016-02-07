@@ -66,7 +66,7 @@ QuantityBuilder.build(:Pressure) do
   non_si_unit :megajoule_per_litre,:sf, 'MJ.lt⁻¹',:megapascal,10**-3
   non_si_unit :megajoule_per_hectolitre,:sf, 'MJ.hl⁻¹',:megapascal,10**-1
 
-  synonyms :EnergyDensity, :VolumeEnergyDemand
+  synonyms :EnergyDensity, :VolumeEnergyDemand, :Stress, :TensileStrength, :YieldStrength
 end
 class Pressure
   class << self

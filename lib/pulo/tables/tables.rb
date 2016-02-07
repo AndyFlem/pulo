@@ -4,8 +4,10 @@ module Pulo
     def self.included base
       base.send :include, InstanceMethods
       base.extend ClassMethods
+
       @tables << base.name.split('::')[1]
       base.send :load_yaml
+
     end
     def self.list
       @tables
@@ -73,3 +75,7 @@ end
 
 require_relative 'density'
 require_relative 'melting_temperature'
+require_relative 'specific_energy'
+require_relative 'yield_strength'
+require_relative 'tensile_strength'
+require_relative 'speed_of_sound'
