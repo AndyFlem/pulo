@@ -7,7 +7,7 @@ module Pulo
   puts Densities.to_s
   p Densities.to_a
   p Densities.find('Lead')
-  p Densities.to_sorted_reverse.first(100)
+  p Densities.to_sorted_reverse.first(5)
 
   p MeltingTemperatures.to_a
 
