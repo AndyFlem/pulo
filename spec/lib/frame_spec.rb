@@ -1,10 +1,14 @@
+# encoding: utf-8
+
 require_relative '../../spec/spec_helper'
 
-module Pulof
-  describe Pulof do
+module Pulo
+
+  describe Frame do
+
     describe 'building a frame from simple columns and accessing columns, rows and cells' do
       before :all do
-        @frame=Frame.new("TestFrame")
+        @frame=Frame.new()
       end
       it 'should allow columns to be defined by name' do
         fr=@frame.append_column('Id')
@@ -109,12 +113,6 @@ module Pulof
       end
     end
 
-    describe 'loading a frame from a spreadsheet' do
-      it 'should load a spreadsheet from a csv' do
-        frame=Frame.new('Fruit_CSV')
-        frame.load_from_spreadsheet("C:/Users/Andy/Documents/pulof.csv")
-      end
-    end
   end
 end
 

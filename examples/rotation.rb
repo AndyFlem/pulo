@@ -4,12 +4,12 @@ module Pulo
 
   #spinning fly wheel
 
-  radius=Length.meters(0.5)
-  thickness=Length.meters(0.5)
+  radius=Length.meters(1.0)
+  thickness=Length.meters(0.7)
   figure=Cylinder.new(radius: radius,length: thickness)
   mass=figure.volume*Densities.Steel
   inertia=MomentOfInertia.disc(mass,radius)
-  rotation=AngularVelocity.rpm(8000)
+  rotation=AngularVelocity.rpm(5000)
   momentum=inertia*rotation
   energy=0.5*momentum*rotation
   period=1/rotation.frequency

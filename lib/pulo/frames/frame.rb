@@ -7,10 +7,11 @@ module Pulo
       end
     end
 
-    attr_accessor :name
+
     attr_reader :column_count,:row_count,:rows, :columns, :column_names
 
     def initialize
+
       @rows=[]
       @columns=[]
       @column_names={}

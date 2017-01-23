@@ -1,4 +1,4 @@
-#https://physicstasks.eu/280/bicyclist-going-uphill
+#Based on: https://physicstasks.eu/280/bicyclist-going-uphill
 
 # A bicyclist is going up a 5% slope by a uniform speed of 27 km·h-1.
 # The magnitude of the air resistance force is given by Fres = 0.5.density*k*v2*x-sectional area where the numerical value of {k} = 0.5.
@@ -27,6 +27,6 @@ module Pulo
   work=f_net*dist
   power=f_net*speed
 
-  puts speed,mass,drag_coeff,x_area,f_air,angle,f_mass,f_net,work.kilojoules,power
+  puts speed,mass,drag_coeff,x_area,f_air,angle,f_mass,f_net,work.kilojoules,power.watts
 
 end

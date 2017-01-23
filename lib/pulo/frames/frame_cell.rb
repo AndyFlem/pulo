@@ -43,8 +43,10 @@ module Pulo
 
     def value=(val)
       @parent_column.column_class||=val.class
-      raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}." if
-          val.class!=@parent_column.column_class
+
+      if val.class!=@parent_column.column_class && @parent_column.column_class!=NilClass
+        raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+      end
 
       @value=val
 

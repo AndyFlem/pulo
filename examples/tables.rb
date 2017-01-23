@@ -13,10 +13,10 @@ module Pulo
 
   puts MeltingTemperatures.to_frame
 
-  #p MeltingTemperatures.to_yaml
-  #MeltingTemperatures.save_yaml
-  #MeltingTemperatures.load_yaml
-  #p MeltingTemperatures.to_a
+  p MeltingTemperatures.to_yaml
+  MeltingTemperatures.save_yaml
+  MeltingTemperatures.load_yaml
+  p MeltingTemperatures.to_a
 
   #Densities.save_yaml
 
