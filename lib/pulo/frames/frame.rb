@@ -164,7 +164,7 @@ module Pulo
     end
 
     def [](column)
-      if column.is_a?(Fixnum)
+      if column.is_a?(Integer)
         raise IndexError,"No column number #{column} defined." unless @columns[column]
         @columns[column]
       else

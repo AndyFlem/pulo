@@ -149,7 +149,7 @@ module Pulo
       end
     end
     def **(power)
-      raise  QuantitiesException.new('Can only raise a quantity to an integer power') unless power.is_a?(Fixnum)
+      raise  QuantitiesException.new('Can only raise a quantity to an integer power') unless power.is_a?(Integer)
 
       new_dims=self.class.dimensions*power
       q1=self; q1=q1.to_si unless q1.is_si?
@@ -160,7 +160,7 @@ module Pulo
       existing_or_new_quantity new_dims,target_scale,target_value
     end
     def rt(power)
-      raise  QuantitiesException.new('Can only do integer roots') unless power.is_a?(Fixnum)
+      raise  QuantitiesException.new('Can only do integer roots') unless power.is_a?(Integer)
 
       new_dims=self.class.dimensions/power
       q1=self; q1=q1.to_si unless q1.is_si?
