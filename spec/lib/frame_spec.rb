@@ -6,7 +6,7 @@ module Pulo
 
   describe Frame do
 
-    describe 'building a frame from simple columns and accessing columns, rows and cells' do
+    describe 'Frame' do
       before :all do
         @frame=Frame.new()
       end
@@ -81,6 +81,7 @@ module Pulo
         expect(@frame.column_count).to eq(3)
         expect(@frame[2][1]).to be_an_instance_of FrameCell
         expect(@frame[2][1].value).to eql('Pears')
+        expect(@frame['Note'].column_class).to eql(String)
       end
 
       it 'should raise exceptions for out of bounds and not found columns and rows' do
@@ -98,12 +99,15 @@ module Pulo
         @frame.recalc_all
         expect(@frame['Note_Length'][0].value).to eql(6)
       end
-      it 'should set cell value to ERR if  ' do
+      it 'should set cell value to ERR if calc gives an err' do
         @frame.append_column('Another_Calc') do |row|
           1/row['Count'].value
         end
         @frame.recalc_all
-
+      end
+      it 'should throw exception for deleting with out of bounds index or column name not found' do
+        expect {@frame.delete_column(10)}.to raise_error(IndexError)
+        expect {@frame.delete_column('xxx')}.to raise_error(IndexError)
       end
 
       it 'should convert to string' do
@@ -111,6 +115,42 @@ module Pulo
         expect(@frame.columns[0].to_s).to eql('Id: 1  , 2  , 3  , 4  ')
         expect(@frame.to_s).to be_an_instance_of String
       end
+
+      it 'should allow deletion of an internal column' do
+        @frame.delete_column(3)
+        expect(@frame[3].name).to eql('Another_Calc')
+        expect(@frame[3][2].value).to eql(0)
+        expect(@frame.column_count).to eql(4)
+      end
+      it 'should allow adding a measure column' do
+        @frame.append_column('MassVal').values=[Mass.kilograms(1),Mass.kilograms(10),Mass.kilograms(3),Mass.kilograms(1.4)]
+        expect(@frame.column_count).to eql(5)
+      end
+      it 'should allow calculation on a measure column' do
+        @frame.append_column('Density col') do |row|
+          row['MassVal'].value/Volume.cubic_meters(0.1)
+        end
+        @frame.recalc_all
+
+      end
+      it 'should allow a custom formatter on a column' do
+        @frame['Density col'].formatter=lambda {|q| q.kilograms_per_cubic_meter.to_s(nil,true)}
+        expect(@frame['Density col'][1].to_s).to eql('100 kg.m⁻³')
+      end
+      it 'should allow to reset the formula on a column' do
+        @frame['Another_Calc'].set_formula do |row|
+          row['Count'].value+1
+        end
+        @frame.recalc_all
+        expect(@frame['Another_Calc'][1].value).to eql(1)
+      end
+      it 'should allow a sort' do
+        @frame=@frame.sort do |row|
+          row['MassVal'].value
+        end
+        puts @frame
+      end
+
     end
 
   end

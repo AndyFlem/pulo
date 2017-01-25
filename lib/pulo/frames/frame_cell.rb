@@ -28,6 +28,9 @@ module Pulo
     def set_error
       @error=true
     end
+    def unset_error
+      @error=false
+    end
 
     def error?
       @error
@@ -42,7 +45,8 @@ module Pulo
     end
 
     def value=(val)
-      @parent_column.column_class||=val.class
+
+      @parent_column.column_class=val.class if @parent_column.column_class==NilClass
 
       if val.class!=@parent_column.column_class && @parent_column.column_class!=NilClass
         raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
@@ -54,7 +58,11 @@ module Pulo
     end
 
     def to_s
-      @parent_column.formatter.call(value).ljust(@parent_column.width,' ')
+      begin
+        @parent_column.formatter.call(value).ljust(@parent_column.width,' ')
+      rescue Exception => e
+        value.to_s
+      end
     end
     def inspect
       "Frame Cell Object"

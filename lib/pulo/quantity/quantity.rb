@@ -54,6 +54,7 @@ module Pulo
       if unit
         if unit.is_a?(Symbol)
           raise "Unit #{unit.to_s} not defined for #{self.class.quantity_name}." unless self.class.units[unit]
+
           self.unit=self.class.units[unit]
         else
           self.unit=unit

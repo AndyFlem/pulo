@@ -3,25 +3,36 @@ require 'descriptive_statistics'
 module Pulo
   class FrameColumn
 
-    attr_reader :name,:formula,:column_number,:recalc_required, :formatter, :column_class
+    attr_reader :name,:formula,:recalc_required, :formatter, :column_class
     attr_accessor :width
 
-    def initialize(name,parent_frame,column_number,hidden,&formula)
+    def initialize(name,parent_frame,hidden,&formula)
       @name=name
-      @column_number=column_number
       @parent_frame=parent_frame
       @formula=formula
       @cells=[]
       @recalc_required=block_given?
       @value_column=!block_given?
-      @formatter=lambda {|v| v.to_s }
+      @standard_formatter=lambda {|v| v.to_s }
+      @formatter=@standard_formatter
       @hidden=hidden
       @width=3
+      @column_class=NilClass
+    end
+
+    def set_formula &formula
+      @formula=formula
+      @recalc_required=true
+      @value_column=false
+    end
+
+    def column_number
+      @parent_frame.column_names[@name]
     end
 
     def column_class= (klass)
       @column_class=klass
-      if @column_class.respond_to?(:quantity_name)
+      if @column_class.respond_to?(:quantity_name) and @formatter==@standard_formatter
         @formatter=lambda {|q| q.to_s(nil,true)}
       end
     end
@@ -60,13 +71,14 @@ module Pulo
     end
 
     def recalc
-      @column_class=nil
+      @column_class=NilClass
       @parent_frame.rows.each do |row|
         begin
-          row[@column_number].value=@formula.call(row)
+          row[column_number].value=@formula.call(row)
+          row[column_number].unset_error
         rescue Exception => e
           warn "Warning! Exception '#{e}' occured calculating column: #{@name} row: #{row.row_number}"
-          row[@column_number].set_error
+          row[column_number].set_error
         end
       end
       @recalc_required=false

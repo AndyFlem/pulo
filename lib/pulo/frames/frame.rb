@@ -11,7 +11,6 @@ module Pulo
     attr_reader :column_count,:row_count,:rows, :columns, :column_names
 
     def initialize
-
       @rows=[]
       @columns=[]
       @column_names={}
@@ -93,22 +92,35 @@ module Pulo
     #  end
     #end
 
-    def delete_column(name)
-      column_no=@column_names[name]
-      @rows.each {|row| row.delete_column(column_no)}
+    def delete_column(name_or_index)
+      if name_or_index.is_a?(Integer)
+        raise IndexError,"No column number #{name_or_index} defined." unless @columns[name_or_index]
+        index=name_or_index
+        name=@columns[index].name
+      else
+        index=@column_names[name_or_index]
+        raise IndexError,"Column with name '#{name_or_index}' not found." unless index
+        name=name_or_index
+      end
+      @rows.each {|row| row.delete_column(index)}
       @column_names.delete(name)
-      @columns.delete_at(column_no)
+      @column_names.each do |item|
+        @column_names[item[0]]-=1 if @column_names[item[0]]>=index
+      end
+      @columns.delete_at(index)
+      @column_count-=1
     end
 
     def rename_column(old_name,new_name)
       col=self[old_name]
+      col_no=@column_names[old_name]
       @column_names.delete(old_name)
-      @column_names.merge!({new_name=>col.column_number})
+      @column_names.merge!({new_name=>col_no})
       col.name=new_name
     end
 
     def append_column(name,hidden=false,&formula)
-      col=FrameColumn.new(name,self,@column_count, hidden, &formula)
+      col=FrameColumn.new(name,self, hidden, &formula)
 
       @columns << col
       @column_names.merge!({name=>@column_count})
@@ -193,16 +205,15 @@ module Pulo
       ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'=')}.join('= ') + "\n"
       ret+='          '
       ret+=@columns.select {|c| !c.hidden?}.map{|s|
-        if s.type=='value'
+        #if s.value_column?
           if s.column_class.respond_to?(:quantity_name)
             s.column_class.quantity_name.ljust(s.width,' ')
           else
             s.column_class.to_s.ljust(s.width,' ')
           end
-
-        else
-          s.type.ljust(s.width,' ')
-        end
+        #else
+        #  s.type.ljust(s.width,' ')
+        #end
 
       }.join('  ') + "\n"
       ret+='--------- '
