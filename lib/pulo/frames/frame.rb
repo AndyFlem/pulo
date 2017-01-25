@@ -19,19 +19,24 @@ module Pulo
     end
 
     #applies the given function to each row
-    #returns a hash where each element (keyed by the group) is an array of frame_rows making up a group
-    def group group_function,column_defns
+    #returns a hash where each element (keyed by the group) is a frame containing the group
+    def group group_function
       groups={}
       @rows.each do |row|
         res=group_function.call(row)
         if groups[res]
-          groups[res].append_row(row.to_a_values)
+          groups[res].append_row(row.to_a)
         else
           frm=self.copy_definition
-          frm.append_row(row.to_a_values)
+          frm.append_row(row.to_a)
           groups.merge!({res=>frm})
         end
       end
+      groups
+    end
+
+    def group_reduce group_function,column_defns
+      groups=group(group_function)
 
       output=Frame.new
       output.append_column 'Group'
@@ -40,7 +45,7 @@ module Pulo
       end
       groups.each do |group|
         row=column_defns.map do |defn|
-          defn[1][1].call group[1][defn[1][0]].to_a
+          defn[1].call group[1]
         end
         row.insert 0,group[0]
         output.append_row row
@@ -140,7 +145,11 @@ module Pulo
         vals=values.each
         row=FrameRow.new(self,@row_count)
         @columns.each do |col|
-          v = col.value_column? ? vals.next : nil
+          if values.length==column_count
+            v = vals.next
+          else
+            v = col.value_column? ? vals.next : nil
+          end
           cell=FrameCell.new(col,row,v)
           col.append_row(cell)
           row.append_column(cell)
@@ -158,7 +167,11 @@ module Pulo
         vals=values.each
         row=FrameRow.new(self,row_no)
         @columns.each do |col|
-          v = col.value_column? ? vals.next : nil
+          if values.length==column_count
+            v = vals.next
+          else
+            v = col.value_column? ? vals.next : nil
+          end
           cell=FrameCell.new(col,row,v)
           col.insert_row(row_no,cell)
           row.append_column(cell)
@@ -199,22 +212,17 @@ module Pulo
 
     def to_s &filter
       @columns.each {|c| c.recalc_width}
-      ret='          '
+      ret="\n          "
       ret+=@columns.select {|c| !c.hidden?}.map{|s| s.name.ljust(s.width,' ')}.join('  ') + "\n"
       ret+='========= '
       ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'=')}.join('= ') + "\n"
       ret+='          '
       ret+=@columns.select {|c| !c.hidden?}.map{|s|
-        #if s.value_column?
-          if s.column_class.respond_to?(:quantity_name)
-            s.column_class.quantity_name.ljust(s.width,' ')
-          else
-            s.column_class.to_s.ljust(s.width,' ')
-          end
-        #else
-        #  s.type.ljust(s.width,' ')
-        #end
-
+        if s.column_class.respond_to?(:quantity_name)
+          (s.column_class.quantity_name + (s.value_column? ? '' : '*')).ljust(s.width,' ')
+        else
+          (s.column_class.to_s + (s.value_column? ? '' : '*')).ljust(s.width,' ')
+        end
       }.join('  ') + "\n"
       ret+='--------- '
       ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'-')}.join('- ') + "\n"

@@ -31,7 +31,6 @@ module Pulo
     def unset_error
       @error=false
     end
-
     def error?
       @error
     end
@@ -39,8 +38,8 @@ module Pulo
     def value
       #raise "Column (#{@parent_column.name}) requires re-calc, value not available." if @parent_column.recalc_required
       return "ERR" if error?
-      return "UNK" if @parent_column.recalc_required
-      return "NIL" if empty?
+      #return "UNK" if @parent_column.recalc_required
+      #return "NIL" if empty?
       @value
     end
 
@@ -48,7 +47,7 @@ module Pulo
 
       @parent_column.column_class=val.class if @parent_column.column_class==NilClass
 
-      if val.class!=@parent_column.column_class && @parent_column.column_class!=NilClass
+      if val.class!=@parent_column.column_class && @parent_column.column_class!=NilClass && val.class!=NilClass
         raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
       end
 

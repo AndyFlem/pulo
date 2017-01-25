@@ -3,7 +3,7 @@ require 'descriptive_statistics'
 module Pulo
   class FrameColumn
 
-    attr_reader :name,:formula,:recalc_required, :formatter, :column_class
+    attr_reader :name,:formula, :formatter, :column_class
     attr_accessor :width
 
     def initialize(name,parent_frame,hidden,&formula)
@@ -11,7 +11,7 @@ module Pulo
       @parent_frame=parent_frame
       @formula=formula
       @cells=[]
-      @recalc_required=block_given?
+      #@recalc_required=block_given?
       @value_column=!block_given?
       @standard_formatter=lambda {|v| v.to_s }
       @formatter=@standard_formatter
@@ -22,7 +22,7 @@ module Pulo
 
     def set_formula &formula
       @formula=formula
-      @recalc_required=true
+      #@recalc_required=true
       @value_column=false
     end
 
@@ -81,7 +81,7 @@ module Pulo
           row[column_number].set_error
         end
       end
-      @recalc_required=false
+      #@recalc_required=false
     end
 
     def [](index)
@@ -109,14 +109,16 @@ module Pulo
       @is_index
     end
 
-    def recalc_required?
-      @recalc_required
-    end
+
+   # def recalc_required=(val)
+   #   @recalc_required=val
+   # end
 
     def recalc_width
       @width=@cells.take(30).map {|c| c.to_s.length}.max
       @width||=0
       @width=[@width,@name.length].max
+      @width=[@width,column_class.to_s.length+1].max
     end
 
     def to_s

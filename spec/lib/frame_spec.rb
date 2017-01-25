@@ -77,7 +77,7 @@ module Pulo
         expect(@frame[2][1]).to be_empty
       end
       it 'should allow setting of values on the new column' do
-        @frame['Note'].values=['Apples','Pears','Oranges','Grapes']
+        @frame['Note'].values=['Apples','Pears','Pears','Grapes']
         expect(@frame.column_count).to eq(3)
         expect(@frame[2][1]).to be_an_instance_of FrameCell
         expect(@frame[2][1].value).to eql('Pears')
@@ -145,10 +145,36 @@ module Pulo
         expect(@frame['Another_Calc'][1].value).to eql(1)
       end
       it 'should allow a sort' do
-        @frame=@frame.sort do |row|
+        @sorted_frame=@frame.sort do |row|
           row['MassVal'].value
         end
+        @sorted_frame.recalc_all
+        expect(@sorted_frame['MassVal'][1].to_s).to eql('1.4 kg')
+      end
+
+      #rename column
+      it 'should allow a column to be renamed' do
+        @frame.rename_column('Another_Calc','Another Calculation')
+        expect(@frame[3].name).to eql('Another Calculation')
+        expect(@frame['Another Calculation'][0].value).to eql(2)
+      end
+
+      #insert row
+      it 'should allow a row to be inserted' do
+        @frame.insert_row(@frame.rows[1],[100,100,'Grapes',nil, Mass.kilograms(43),nil])
+        @frame.recalc_all
+        expect(@frame[3][2].value).to eql(101)
         puts @frame
+      end
+
+      #group
+      it 'should allow grouping' do
+        @groups=@frame.group(lambda {|row| row['Note'].value})
+        expect(@groups['Pears'].row_count).to eql(2)
+
+        @reduce=@frame.group_reduce(lambda {|row| row['Note'].value},{"Sum Count"=>lambda {|frame| frame['Count'].to_a.sum }})
+        expect(@reduce.lookup('Pears','Group')[0]['Sum Count'].value).to eql(400)
+        puts @reduce
       end
 
     end
