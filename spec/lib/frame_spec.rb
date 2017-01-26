@@ -91,6 +91,7 @@ module Pulo
         expect{ @frame.rows[1]['XXX'] }.to raise_error(IndexError)
         expect{ @frame[1][100] }.to raise_error(IndexError)
         expect{ @frame['Note'].values=['Apples','Pears','Oranges'] }.to raise_error(ArgumentError)
+        expect{ @frame['Note'][0].value=1 }.to raise_error(RuntimeError)
       end
       it 'should allow to add a calculation column' do
         @frame.append_column('Note_Length') do |row|
