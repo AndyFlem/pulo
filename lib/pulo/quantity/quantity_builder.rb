@@ -165,7 +165,7 @@ module Pulo
               intermediate_si.send(unit.name)
             end
 
-          #non-si to no-si
+          #non-si to non-si
           else
             #get the destination non-si unit definition
             to_unit=self.class.units[unit.name]

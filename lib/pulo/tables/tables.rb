@@ -20,12 +20,13 @@ module Pulo
             @quantity.new(@values[method_sym],@unit)
           else
               if @values.respond_to?(method_sym)
-                @values.values.send(method_sym,*arguments,&block)
+                @values.send(method_sym,*arguments,&block)
               else
                 raise "Can't find item '#{method_sym}' in table #{self.name.split('::')[1]}."
               end
           end
         end
+
         def find value
           search_value=value.downcase
           Hash[(@values.select { |key, value| key.to_s.downcase.include? search_value }).map do |elm|
@@ -33,9 +34,12 @@ module Pulo
           end]
         end
 
+        #the unit specified for the table
         def unit
           @unit
         end
+
+        #the quantity specified for the table
         def quantity
           @quantity
         end
@@ -45,11 +49,18 @@ module Pulo
             [elm[0],@quantity.new(elm[1],@unit)]
           end
         end
-        def to_sorted
-          @values.sort_by {|k,v| v}
+        def to_h
+          to_a.to_h
         end
-        def to_sorted_reverse
-          @values.sort_by {|k,v| -v}
+        def sort
+          (@values.sort_by {|k,v| v}).map do |elm|
+              [elm[0],@quantity.new(elm[1],@unit)]
+          end
+        end
+        def sort_reverse
+          (@values.sort_by {|k,v| -v}).map do |elm|
+            [elm[0],@quantity.new(elm[1],@unit)]
+          end
         end
 
         def to_frame
@@ -59,7 +70,6 @@ module Pulo
           @values.to_a.each do |ar|
             frm.append_row([ar[0],self.send(ar[0],ar[1])])
           end
-
           frm
         end
         def to_yaml

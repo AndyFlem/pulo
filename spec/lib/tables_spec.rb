@@ -28,9 +28,44 @@ module Pulo
         expect(a[0][0]).to eq(:ABS)
         expect(a[0][1].class).to eq(Densities.quantity)
       end
+      it 'should allow conversion to hash' do
+        a=Densities.to_h
+        expect(a.class).to eq(Hash)
+        expect(a[:Zylon].value).to eq(1560.0)
+      end
       it 'should allow find by name' do
         l=Densities.find('Lead')
         expect(l[:Bronze_lead].value).to eq(8200.0)
+      end
+      it 'should pass anything unrecognised to the underlying hash' do
+        expect(Densities.values.max).to eq(22650)
+        expect(Densities.max).to eq([:Zylon, 1560])
+      end
+      it 'should allow sort and sort reverse' do
+        a=Densities.sort
+        expect(a.class).to eq(Array)
+        expect(a[0][0]).to eq(:Air)
+        expect(a[0][1].class).to eq(Densities.quantity)
+        a=Densities.sort_reverse
+        expect(a[0][0]).to eq(:Iridium)
+      end
+
+      it 'should allow conversion to a frame' do
+        frm=Densities.to_frame.sort do |row|
+          row['Density'].value
+        end
+        expect(frm["Item"][0].value).to eq(:Air)
+      end
+
+      it 'should allow conversion to yaml' do
+        y=Densities.to_yaml
+        expect(y.class).to eq(String)
+      end
+
+      it 'should allow to add and remove items' do
+        Densities.add_item('Test',0)
+        expect(Densities.Test).to eq(Density.kilograms_per_cubic_meter(0))
+        Densities.remove_item('Test')
       end
 
   end
