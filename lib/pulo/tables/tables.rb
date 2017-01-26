@@ -19,18 +19,31 @@ module Pulo
           if @values[method_sym]
             @quantity.new(@values[method_sym],@unit)
           else
-            raise "Can't find item '#{method_sym}' in table #{self.name.split('::')[1]}."
+              if @values.respond_to?(method_sym)
+                @values.values.send(method_sym,*arguments,&block)
+              else
+                raise "Can't find item '#{method_sym}' in table #{self.name.split('::')[1]}."
+              end
           end
         end
         def find value
           search_value=value.downcase
-          @values.select { |key, value| key.to_s.downcase.include? search_value }
+          Hash[(@values.select { |key, value| key.to_s.downcase.include? search_value }).map do |elm|
+            [elm[0],@quantity.new(elm[1],@unit)]
+          end]
         end
-        def to_s
-          @values.to_s
+
+        def unit
+          @unit
         end
+        def quantity
+          @quantity
+        end
+
         def to_a
-          @values.to_a
+          @values.to_a.map do |elm|
+            [elm[0],@quantity.new(elm[1],@unit)]
+          end
         end
         def to_sorted
           @values.sort_by {|k,v| v}
