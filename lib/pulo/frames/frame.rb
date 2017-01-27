@@ -1,3 +1,7 @@
+require_relative 'frame_cell'
+require_relative 'frame_row'
+require_relative 'frame_column'
+
 module Pulo
 
   class Frame

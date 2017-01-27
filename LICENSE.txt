@@ -1,4 +1,4 @@
-Copyright (c) 2014 Andy Fleming
+Copyright (c) 2014-2017 Andy Fleming
 
 MIT License
 

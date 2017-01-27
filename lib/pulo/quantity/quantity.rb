@@ -1,6 +1,41 @@
 # encoding: utf-8
 
 module Pulo
+#Module instance variables to store global settings
+  class << self
+    attr_accessor :precision
+    attr_accessor :significant_figures
+    attr_accessor :supress_quantity_names
+
+    def quantities; @quantities||={};end #hash with dimension_spec as the key
+
+    def help
+      @quantities.each do |dim|
+
+        dim[1].each do |quan|
+          names=quan.quantity_name
+          if quan.synonyms.length>0
+            names += ', ' + quan.synonyms.join(', ')
+          end
+
+          puts names
+          puts '---------------------------------------------------------------------------------------'
+          puts '[' + dim[0].to_s + ']'
+          puts quan.units_sorted #.each do |unit_def|
+          #puts unit_def
+          #end
+          puts ''
+        end
+      end
+    end
+  end
+end
+Pulo.precision = 2
+Pulo.significant_figures = false
+Pulo.supress_quantity_names = false
+
+
+module Pulo
   class Quantity
     include Comparable
     #=====================================
