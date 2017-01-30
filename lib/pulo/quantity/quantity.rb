@@ -208,7 +208,7 @@ module Pulo
         end
       end
       new_dims=self.class.dimensions/power
-      puts new_dims
+
       q1=self; q1=q1.to_si unless q1.is_si?
 
       target_scale=q1.unit.scale/power

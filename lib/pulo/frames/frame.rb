@@ -28,7 +28,7 @@ module Pulo
     end
 
     def export_csv path
-      puts path
+
       CSV.open(path, 'wb') do |csv|
         csv << @columns.map {|col| col.name}
         csv << @columns.map {|col| col.column_class.name}
