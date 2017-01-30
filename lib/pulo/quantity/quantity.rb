@@ -101,6 +101,10 @@ module Pulo
       self
     end
 
+    def dimensions
+      self.class.dimensions
+    end
+
     def to_s(precision=nil, supress_quantity_names=false)
       "#{self.class.quantity_name + ': ' unless Pulo.supress_quantity_names || supress_quantity_names}#{NumberToRoundedConverter.convert(@value,precision)} #{@unit.abbreviation}"
     end
@@ -198,7 +202,13 @@ module Pulo
     def rt(power)
       raise  QuantitiesException.new('Can only do integer roots') unless power.is_a?(Integer)
 
+      self.class.dimensions.spec.each do |dim|
+        if dim[1]/power.to_f % 1 != 0
+          raise  QuantitiesException.new('Root would lead to non-integer dimensions')
+        end
+      end
       new_dims=self.class.dimensions/power
+      puts new_dims
       q1=self; q1=q1.to_si unless q1.is_si?
 
       target_scale=q1.unit.scale/power

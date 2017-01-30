@@ -1,4 +1,4 @@
-require 'descriptive_statistics'
+#require 'descriptive_statistics'
 
 module Pulo
   class FrameColumn
@@ -44,9 +44,6 @@ module Pulo
     end
     def hidden=value
       @hidden=value
-    end
-    def type
-      value_column? ? 'value' : 'formula'
     end
     def name= new_name
       if @parent_frame.column_names[new_name]
@@ -104,15 +101,6 @@ module Pulo
     def value_column?
       @value_column
     end
-
-    def index?
-      @is_index
-    end
-
-
-   # def recalc_required=(val)
-   #   @recalc_required=val
-   # end
 
     def recalc_width
       @width=@cells.take(30).map {|c| c.to_s.length}.max

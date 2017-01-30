@@ -60,7 +60,7 @@ QuantityBuilder.build(:VolumeFlow) do
 
   non_si_unit :hectolitre_per_year,:sf,'hl.yr⁻¹',:cubic_meter_per_year,10
 
-  synonyms :Discharge
+  synonyms :Discharge, :Flow
 end
 
 end
