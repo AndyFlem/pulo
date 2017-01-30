@@ -123,7 +123,7 @@ module Pulo
     def descriptive_statistics
       vals=self.to_a
       if @column_class.respond_to?(:quantity_name)
-        vals=vals.map{|val| val.send(@column_unit).value}
+        vals=vals.map{|val| val.send(@column_unit.name).value}
       end
       stats=vals.descriptive_statistics
       if @column_class.respond_to?(:quantity_name)
