@@ -178,9 +178,9 @@ module Pulo
         puts @reduce
       end
 
-      it 'should allow save to CSV' do
-        @frame.export_csv(File.expand_path('../../temp/export.csv',__FILE__))
-      end
+      #it 'should allow save to CSV' do
+      #  @frame.export_csv(File.expand_path('../../temp/export.csv',__FILE__))
+      #end
 
     end
 
