@@ -2,6 +2,19 @@
 
 module Pulo
   class << self
+
+    def stats_format stats
+      ret=''
+      stats.each do |stat|
+        if stat[0]==:number
+          ret+='Count: ' + stat[1].to_s + "\n"
+        else
+          ret+=stat[0].to_s.capitalize + ': ' + stat[1].to_s + "\n"
+        end
+      end
+      ret
+    end
+
     def super_digit(val)
       val.to_s.chars.inject('') do |res, chr|
         res+= case chr

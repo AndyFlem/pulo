@@ -1,7 +1,6 @@
 module Pulo
   class FrameCell
 
-
     def initialize(parent_column,parent_row,value=nil)
       @parent_column=parent_column
       @parent_row=parent_row
@@ -44,9 +43,23 @@ module Pulo
     end
 
     def value=(val)
-      @parent_column.column_class=val.class if @parent_column.column_class==NilClass
-      if val.class!=@parent_column.column_class && @parent_column.column_class!=NilClass && val.class!=NilClass
-        raise "Tried to set a value of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+      if @parent_column.column_class==NilClass
+        @parent_column.column_class=val.class
+        if val.class.respond_to?(:quantity_name)
+          @parent_column.column_unit=val.unit
+        end
+      end
+
+      if @parent_column.column_class!=NilClass && val.class!=NilClass
+        if val.class.respond_to?(:quantity_name)
+          unless val.class.dimensions==@parent_column.column_class.dimensions
+            raise "Tried to set a value (#{val.to_s}) of class #{val.class} with dimensions #{val.class.dimensions} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+          end
+        else
+          unless val.class==@parent_column.column_class
+            raise "Tried to set a value (#{val.to_s}) of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+          end
+        end
       end
       @value=val
     end

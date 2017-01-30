@@ -50,7 +50,7 @@ module Pulo
     non_si_unit :cable, :s, 'cbl', :kilometer, 1000.0/185.2
     non_si_unit :nautical_mile, :s, 'nm', :kilometer, 1000.0/1852
 
-    synonyms :Width, :Depth, :Height, :Head, :Distance, :Displacement, :Precipitation
+    synonyms :Width, :Depth, :Height, :Head, :Distance, :Displacement, :Precipitation, :Elevation
   end
 
   QuantityBuilder.build(:Duration) do

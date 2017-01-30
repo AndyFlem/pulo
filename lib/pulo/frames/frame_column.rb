@@ -1,9 +1,9 @@
-#require 'descriptive_statistics'
+require 'descriptive_statistics'
 
 module Pulo
   class FrameColumn
 
-    attr_reader :name,:formula, :formatter, :column_class
+    attr_reader :name,:formula, :formatter, :column_class, :column_unit
     attr_accessor :width
 
     def initialize(name,parent_frame,hidden,&formula)
@@ -18,6 +18,7 @@ module Pulo
       @hidden=hidden
       @width=3
       @column_class=NilClass
+      @column_unit=NilClass
     end
 
     def set_formula &formula
@@ -35,6 +36,9 @@ module Pulo
       if @column_class.respond_to?(:quantity_name) and @formatter==@standard_formatter
         @formatter=lambda {|q| q.to_s(nil,true)}
       end
+    end
+    def column_unit=(klass)
+      @column_unit=klass
     end
     def formatter= (lamb)
       @formatter=lamb
@@ -114,6 +118,25 @@ module Pulo
     end
     def inspect
       "Frame Column Object"
+    end
+
+    def descriptive_statistics
+      vals=self.to_a
+      if @column_class.respond_to?(:quantity_name)
+        vals=vals.map{|val| val.send(@column_unit).value}
+      end
+      stats=vals.descriptive_statistics
+      if @column_class.respond_to?(:quantity_name)
+        stats.map{|val|
+
+          if val[0]!=:number
+            [val[0],@column_class.new(val[1],@column_unit)]
+          else
+            [val[0],val[1]]
+          end
+
+        }.to_h
+      end
     end
 
   end

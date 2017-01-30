@@ -1,3 +1,5 @@
+require 'csv'
+require 'descriptive_statistics'
 require_relative 'frame_cell'
 require_relative 'frame_row'
 require_relative 'frame_column'
@@ -11,7 +13,6 @@ module Pulo
       end
     end
 
-
     attr_reader :column_count,:row_count,:rows, :columns, :column_names
 
     def initialize
@@ -20,6 +21,21 @@ module Pulo
       @column_names={}
       @column_count=0
       @row_count=0
+    end
+
+    def import_csv path
+
+    end
+
+    def export_csv path
+      puts path
+      CSV.open(path, 'wb') do |csv|
+        csv << @columns.map {|col| col.name}
+        csv << @columns.map {|col| col.column_class.name}
+        @rows.each do |row|
+          csv<<row.to_a
+        end
+      end
     end
 
     #applies the given function to each row
@@ -69,6 +85,14 @@ module Pulo
       frm
     end
 
+    def clone
+      frame=copy_definition
+      @rows.each do |row|
+          frame.append_row row.to_a
+      end
+      frame
+    end
+
     def copy_definition
       frame=Frame.new
       @columns.each do |col|
@@ -76,30 +100,6 @@ module Pulo
       end
       frame
     end
-
-
-    #def load_from_spreadsheet(path, sheet,procs=[])
-    #  #sheet=Roo::CSV.new(path)
-    #  dat=ExcelWrapper.load(path,sheet)
-    #  head=dat.first
-    #  body=dat.drop(1)
-    #  head.each do |col|
-    #    if col.respond_to?(:strip)
-    #      append_column(col.strip)
-    #    end
-    #  end
-    #  procs.fill(lambda {|n| n},procs.length..(head.length-1))
-    #  body.each_with_index do |row,i|
-    #    calculated=row.zip(procs).map do |d,p|
-    #      begin
-    #        p.call(d)
-    #      rescue Exception => e
-    #        warn "Warning! Exception '#{e}' importing row #{i} from spreadsheet on value #{d.class}:'#{d.to_s}'."
-    #      end
-    #    end
-    #    append_row(calculated)
-    #  end
-    #end
 
     def delete_column(name_or_index)
       if name_or_index.is_a?(Integer)
