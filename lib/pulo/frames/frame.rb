@@ -31,9 +31,28 @@ module Pulo
 
       CSV.open(path, 'wb') do |csv|
         csv << @columns.map {|col| col.name}
-        csv << @columns.map {|col| col.column_class.name}
+        csv << @columns.map {|col|
+          if col.column_class.respond_to?(:quantity_name)
+            col.column_class.quantity_name
+          else
+            col.column_class.name
+          end
+        }
+        csv << @columns.map {|col|
+          if col.column_class.respond_to?(:quantity_name)
+            col.column_unit.name
+          else
+            ''
+          end
+        }
         @rows.each do |row|
-          csv<<row.to_a
+          csv<<row.to_a.map{|cell|
+            if cell.class.respond_to?(:quantity_name)
+              cell.value
+            else
+              cell
+            end
+          }
         end
       end
     end

@@ -43,12 +43,21 @@ module Pulo
     end
 
     def value=(val)
+
       if @parent_column.column_class==NilClass
         @parent_column.column_class=val.class
         if val.class.respond_to?(:quantity_name)
           @parent_column.column_unit=val.unit
         end
       end
+
+
+      if val.class.respond_to?(:quantity_name)
+        if val.unit.name!=@parent_column.column_unit.name
+          val=val.send(@parent_column.column_unit.name)
+        end
+      end
+
 
       if @parent_column.column_class!=NilClass && val.class!=NilClass
         if val.class.respond_to?(:quantity_name)
