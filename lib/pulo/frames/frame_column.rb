@@ -71,7 +71,9 @@ module Pulo
       end
     end
 
-    def recalc
+    def recalc with_timing=false
+      t_start=Time.now
+
       @column_class=NilClass
       @parent_frame.rows.each do |row|
         begin
@@ -82,7 +84,10 @@ module Pulo
           row[column_number].set_error
         end
       end
-      #@recalc_required=false
+
+      if with_timing
+        puts "Recalc column '#{@name}' in: #{((Time.now-t_start)*1000).to_i} ms."
+      end
     end
 
     def [](index)

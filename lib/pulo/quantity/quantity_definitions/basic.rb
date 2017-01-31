@@ -69,7 +69,7 @@ module Pulo
     non_si_unit :week, :s, 'wk', :day, 1.0/7
 
 
-    synonyms :Time, :Period, :Timing, :Interval
+    synonyms :Period, :Timing, :Interval
   end
 
   QuantityBuilder.build(:Frequency) do
