@@ -22,9 +22,9 @@ module Pulo
       expect((@bignum.rt(3)).to_s).to eq("Length: 115.08 km")
     end
     it 'should allow trigonometric functions on angles' do
-      expect(Math.cos(@angle).to_s).to eq("Dimensionless: 0 ")
-      expect(Math.sin(@angle).to_s).to eq("Dimensionless: 1 ")
-      expect(Math.tan(@angle2).to_s).to eq("Dimensionless: 1 ")
+      expect(Math.cos(@angle).to_s).to eq("0 ")
+      expect(Math.sin(@angle).to_s).to eq("1 ")
+      expect(Math.tan(@angle2).to_s).to eq("1 ")
     end
     it 'should allow reverse trigonometric functions on dimensionless' do
       expect(Math.acos(@dimless2).to_s).to eq("Angle: 1.05 rad")
@@ -32,16 +32,16 @@ module Pulo
       expect(Math.atan(@dimless2).to_s).to eq("Angle: 0.55 rad")
     end
     it 'should allow scalar+dimensionless' do
-      expect((10+Dimensionless.n(10)).to_s).to eq("Dimensionless: 20 ")
-      expect((10.1+Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10.2 ")
-      expect((BigDecimal(10.1,3)+Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10.2 ")
-      expect(((10000000**2)+Dimensionless.n(10)).to_s).to eq("Dimensionless: 100,000,000,000,010 ")
+      expect((10+Dimensionless.n(10)).to_s).to eq("20 ")
+      expect((10.1+Dimensionless.percent(10)).to_s).to eq("10.2 ")
+      expect((BigDecimal(10.1,3)+Dimensionless.percent(10)).to_s).to eq("10.2 ")
+      expect(((10000000**2)+Dimensionless.n(10)).to_s).to eq("100,000,000,000,010 ")
     end
     it 'should allow scalar-dimensionless' do
-      expect((10-Dimensionless.n(1)).to_s).to eq("Dimensionless: 9 ")
-      expect((10.1-Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10 ")
-      expect((BigDecimal(10.1,3)-Dimensionless.percent(10)).to_s).to eq("Dimensionless: 10 ")
-      expect(((10000000**2)-Dimensionless.n(10)).to_s).to eq("Dimensionless: 99,999,999,999,990 ")
+      expect((10-Dimensionless.n(1)).to_s).to eq("9 ")
+      expect((10.1-Dimensionless.percent(10)).to_s).to eq("10 ")
+      expect((BigDecimal(10.1,3)-Dimensionless.percent(10)).to_s).to eq("10 ")
+      expect(((10000000**2)-Dimensionless.n(10)).to_s).to eq("99,999,999,999,990 ")
     end
     it 'should allow scalar/quantity' do
       expect((2/Period.milliseconds(100)).to_s).to eq('Frequency: 20 Hz')

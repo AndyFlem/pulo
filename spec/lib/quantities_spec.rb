@@ -267,10 +267,10 @@ describe 'Angles should be as expected' do
     expect((Angle.radians(Math::PI)*2==Angle.degrees(360)).to_s).to eq ("true")
   end
   it 'should do cos on Angles' do
-    expect(Math.cos(Angle.degrees(360)).to_s).to eq ("Dimensionless: 1 ")
+    expect(Math.cos(Angle.degrees(360)).to_s).to eq ("1 ")
   end
   it 'should do sin on Angles' do
-    expect(Math.sin(Angle.degrees(360)).to_s).to eq ("Dimensionless: 0 ")
+    expect(Math.sin(Angle.degrees(360)).to_s).to eq ("0 ")
   end
 end
 
