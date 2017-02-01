@@ -100,8 +100,39 @@ Every quantity in **pulo** has an associated dimension eg SpecificHeat - [L².K�
 
 Any calculation involving quantities is inspected to determine the resulting dimensions and where these are recognized then the result is *'cast'* into the quantity corresponding to these dimensions:
 ```ruby
+force=Force.kN(100)
+area=Area.square_inches(200)
+pressure=force/area
+a.to_s
+=> "Pressure: 0.78 MPa"
+
+area.dimensions.spec
+=> {:L=>2}
+
+force.dimensions.spec
+=> {:L=>1, :M=>1, :T=>-2}
+
+pressure.dimensions.spec
+=> {:L=>-1, :M=>1, :T=>-2}
 
 ```
+Note that before any calculations are performed on a quantity it is first converted to its equivalent SI unit internally. The underlying value of all quantities is stored as a float.
+```ruby
+(Length.feet(Rational(4,3)) * Length.inches(40)).to_s
+
+=> "Area: 0.41 m²"
+```
+The following operators and functions are overloaded to recognize quantities and dimensions:
+
+```*``` (multiply) 
+```/``` (divide)
+```+``` (add)
+```-``` (subtract)
+```-``` (negate)
+```**``` (nth power)
+```rt``` (nth root)
+```inverse``` (inverse) 
+```cos, sin, tan``` (trig functions)   
 
 
 ## Contributing
