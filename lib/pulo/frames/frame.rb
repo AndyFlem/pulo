@@ -60,7 +60,7 @@ module Pulo
     #applies the given function to each row
     #returns a hash where each element (keyed by the group) is a frame containing the group
     def group group_function
-      t=Time.now
+      #t=Time.now
       groups={}
       @rows.each do |row|
         res=group_function.call(row)
@@ -72,14 +72,14 @@ module Pulo
           groups.merge!({res=>frm})
         end
       end
-      puts "Groups in #{((Time.now-t)*1000).to_i} ms."
+      #puts "Groups in #{((Time.now-t)*1000).to_i} ms."
       groups
     end
 
     def group_reduce group_function,column_defns
       groups=group(group_function)
 
-      t=Time.now
+      #t=Time.now
       output=Frame.new
       output.append_column 'Group'
       column_defns.keys.each do |col|
@@ -92,7 +92,7 @@ module Pulo
         row.insert 0,group[0]
         output.append_row row
       end
-      puts "Reduce in #{((Time.now-t)*1000).to_i} ms."
+      #puts "Reduce in #{((Time.now-t)*1000).to_i} ms."
       output
 
     end
