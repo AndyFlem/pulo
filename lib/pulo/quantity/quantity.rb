@@ -106,7 +106,7 @@ module Pulo
     end
 
     def to_s(precision=nil, supress_quantity_names=false)
-      "#{self.class.quantity_name + ': ' unless Pulo.supress_quantity_names || supress_quantity_names}#{NumberToRoundedConverter.convert(@value,precision)} #{@unit.abbreviation}"
+      "#{self.class.quantity_name + ': ' unless Pulo.supress_quantity_names || supress_quantity_names || self.class==Dimensionless}#{NumberToRoundedConverter.convert(@value,precision)} #{@unit.abbreviation}"
     end
 
     def to; self; end
