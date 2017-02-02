@@ -21,9 +21,7 @@ module Pulo
           puts names
           puts '---------------------------------------------------------------------------------------'
           puts '[' + dim[0].to_s + ']'
-          puts quan.units_sorted #.each do |unit_def|
-          #puts unit_def
-          #end
+          puts quan.units_sorted
           puts ''
         end
       end
@@ -53,6 +51,11 @@ module Pulo
         @si_unit_scales.min_by do |unit|
           (scale-unit[0]).abs
         end[1]
+      end
+
+      def method_missing(method_sym, *arguments, &block)
+        puts "#{quantity_name} doesn't have a unit #{method_sym}."
+        puts "Available units are: " + units.map{|unt| unt[1].name }.join(', ')
       end
 
       def quantity_name
@@ -228,6 +231,7 @@ module Pulo
       else
         qname=new_dims.to_s(true).gsub(/-/, '_')
         QuantityBuilder.build(qname) do
+          # noinspection RubyArgCount
           dimensions new_dims.spec
           si_unit '0.0'+qname, '', new_dims.to_s, 1.0
           unless target_scale==0

@@ -11,9 +11,9 @@ module Pulo
     @spec
   end
 
-  def is_base?
-    @spec.count==1 && @spec.first[1]==1
-  end
+  #def is_base?
+  #  @spec.count==1 && @spec.first[1]==1
+  #end
 
   def +(other_spec)
     Dimension.new @spec.merge(other_spec.spec) {|_key,val1,val2| val1+val2}
@@ -43,13 +43,12 @@ module Pulo
     sort_spec=@spec.sort_by { |item| item[1]*-1}
 
     if supress_pretty
-      sort_spec.inject('') do |ret,item|
-        ret+=item[0].to_s + item[1].to_s
+      sort_spec.reduce('') do |ret,item|
+        ret+item[0].to_s + item[1].to_s
       end
     else
-      sort_spec.inject('') do |ret,item|
-        exp=if item[1]!=1 then Pulo.super_digit(item[1]) else '' end
-        ret+=item[0].to_s + exp + '.'
+      sort_spec.reduce('') do |ret,item|
+        ret+item[0].to_s + (Pulo.super_digit(item[1]) unless item[1]==1) + '.'
       end[0..-2]
     end
 

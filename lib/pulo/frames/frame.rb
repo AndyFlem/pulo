@@ -8,11 +8,6 @@ module Pulo
 
   class Frame
 
-    class << self
-      def aggregate groups, column_defns
-      end
-    end
-
     attr_reader :column_count,:row_count,:rows, :columns, :column_names
 
     def initialize
@@ -23,11 +18,7 @@ module Pulo
       @row_count=0
     end
 
-    def import_csv path
-
-    end
-
-    def export_csv path
+    def export_csv(path)
 
       CSV.open(path, 'wb') do |csv|
         csv << @columns.map {|col| col.name}
@@ -59,7 +50,7 @@ module Pulo
 
     #applies the given function to each row
     #returns a hash where each element (keyed by the group) is a frame containing the group
-    def group group_function
+    def group(group_function)
       #t=Time.now
       groups={}
       @rows.each do |row|
@@ -76,7 +67,7 @@ module Pulo
       groups
     end
 
-    def group_reduce group_function,column_defns
+    def group_reduce(group_function,column_defns)
       groups=group(group_function)
 
       #t=Time.now
@@ -157,8 +148,7 @@ module Pulo
       @columns << col
       @column_names.merge!({name=>@column_count})
 
-      for i in 0..(@row_count-1)
-        rw=@rows[i]
+      @rows.each do |rw|
         cell=FrameCell.new(col,rw)
         col.append_row(cell)
         rw.append_column(cell)
@@ -185,7 +175,7 @@ module Pulo
         @row_count+=1
         row
       else
-        raise "Expecting an array of values as the append row."
+        raise 'Expecting an array of values as the append row.'
       end
     end
     def insert_row(previous_row,values)
@@ -207,11 +197,11 @@ module Pulo
         @row_count+=1
         @rows.drop(row_no+1).each {|r| r.row_number+=1}
       else
-        raise "Expecting an array of values as the append row."
+        raise 'Expecting an array of values as the append row.'
       end
     end
 
-    def recalc_all with_timing=false
+    def recalc_all(with_timing=false)
       formula_columns.each { |col| col.recalc with_timing }
     end
 
@@ -237,12 +227,12 @@ module Pulo
       self[column].lookup(value)
     end
 
-    def to_s &filter
+    def to_s(&filter)
       @columns.each {|c| c.recalc_width}
       ret="\n          "
       ret+=@columns.select {|c| !c.hidden?}.map{|s| s.name.ljust(s.width,' ')}.join('  ') + "\n"
       ret+='========= '
-      ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'=')}.join('= ') + "\n"
+      ret+=@columns.select {|c| !c.hidden?}.map{|s| ''.ljust(s.width,'=')}.join('= ') + "\n"
       ret+='          '
       ret+=@columns.select {|c| !c.hidden?}.map{|s|
         if s.column_class.respond_to?(:quantity_name)
@@ -252,7 +242,7 @@ module Pulo
         end
       }.join('  ') + "\n"
       ret+='--------- '
-      ret+=@columns.select {|c| !c.hidden?}.map{|s| "".ljust(s.width,'-')}.join('- ') + "\n"
+      ret+=@columns.select {|c| !c.hidden?}.map{|s| ''.ljust(s.width,'-')}.join('- ') + "\n"
 
       ret+=(@rows.select{|row| !block_given? || filter.call(row)}.map { |row| row.to_s}).join("\n")
 

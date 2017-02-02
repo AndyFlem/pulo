@@ -91,17 +91,6 @@ class BigDecimal
   end
 end
 
-#class Bignum
-#  alias :old_minus :-
-#  def -(other)
-#    if other.is_a?(Pulo::Dimensionless)
-#      Pulo::Dimensionless.new(self-other.to_base_unit.value)
-#    else
-#      self.old_minus(other)
-#    end
-#  end
-#end
-
 class Integer
   alias :old_minus :-
   def -(other)
@@ -134,17 +123,6 @@ class BigDecimal
     end
   end
 end
-
-#class Bignum
-#  alias :old_plus :+
-#  def +(other)
-#    if other.is_a?(Pulo::Dimensionless)
-#      Pulo::Dimensionless.new(self+other.to_base_unit.value)
-#    else
-#      self.old_plus(other)
-#    end
-#  end
-#end
 
 class Integer
   alias :old_plus :+
@@ -180,17 +158,6 @@ class BigDecimal
   end
 end
 
-#class Bignum
-#  alias :old_div :/
-#  def /(other)
-#    if other.is_a?(Pulo::Quantity)
-#      other.inverse*self
-#    else
-#      self.old_div(other)
-#    end
-#  end
-#end
-
 class Integer
   alias :old_div :/
   def /(other)
@@ -224,17 +191,6 @@ class BigDecimal
     end
   end
 end
-
-#class Fixnum
-#  alias :old_times :*
-#  def *(other)
-#    if other.is_a?(Pulo::Quantity)
-#      other*self
-#    else
-#      self.old_times(other)
-#    end
-#  end
-#end
 
 class Integer
   alias :old_times :*

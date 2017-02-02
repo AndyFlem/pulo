@@ -43,8 +43,8 @@ module Pulo
     non_si_unit :furlong, :s, 'fu', :kilometer, 1.0/0.201168
 
     non_si_unit :astronomical_unit, :s, 'AU', :kilometer, 1.0/149597870.7
-    non_si_unit :parsec, :s, 'pc', :kilometer, 1.0/3.0856776*10**13
-    non_si_unit :lightyear, :s, 'ly', :kilometer, 1.0/9.4607**10**13
+    non_si_unit :parsec, :s, 'pc', :kilometer, 1.0/(3.0856776*10**13)
+    non_si_unit :lightyear, :s, 'ly', :kilometer, 1.0/(9.4607*10**13)
 
     non_si_unit :fathom, :s, 'fth', :meter, 0.546806649
     non_si_unit :cable, :s, 'cbl', :kilometer, 1000.0/185.2

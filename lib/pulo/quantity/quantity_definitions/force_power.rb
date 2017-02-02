@@ -42,7 +42,7 @@ QuantityBuilder.build(:Power) do
   non_si_unit :metric_horsepower,:metric_horsepower, 'mhp',:kilowatt,1.35962162
   non_si_unit :million_btu_per_hour,:sf,'MMBtu.hr⁻¹',:megawatt,3.41214163
   non_si_unit :gigawatt_hour_per_year,:gigawatt_hours_per_year, 'GW.hr.yr⁻¹',:gigawatt,24.0*365
-  non_si_unit :kilowatt_hour_per_year,:kilowatt_hours_per_year, 'KW.hr.yr⁻¹',:kilowatt,24.0*365
+  non_si_unit :kilowatt_hour_per_year,:kilowatt_hours_per_year, 'kW.hr.yr⁻¹',:kilowatt,24.0*365
   non_si_unit :kilowatt_hour_per_month,:kilowatt_hours_per_month, 'KW.hr.mnth⁻¹',:kilowatt,24.0*365/12
 end
 QuantityBuilder.build(:Pressure) do
