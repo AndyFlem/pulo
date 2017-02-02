@@ -48,7 +48,7 @@ module Pulo
       end
     else
       sort_spec.reduce('') do |ret,item|
-        ret+item[0].to_s + (Pulo.super_digit(item[1]) unless item[1]==1) + '.'
+        ret+=item[0].to_s + (item[1]==1 ? '' : Pulo.super_digit(item[1])) + '.'
       end[0..-2]
     end
 

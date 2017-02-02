@@ -68,17 +68,40 @@ module Pulo
     end
 
     def group_reduce(group_function,column_defns)
+      #get groups
       groups=group(group_function)
 
       #t=Time.now
       output=Frame.new
       output.append_column 'Group'
+
+      #setup the columns
       column_defns.keys.each do |col|
         output.append_column(col)
       end
+
+      #add a row to the output for each group produced in the earlier stage
       groups.each do |group|
         row=column_defns.map do |defn|
-          defn[1].call group[1]
+          if defn[1].class==Proc
+            defn[1].call group[1]
+          else
+            #assume an array with method for descriptive statistics and a column name
+            c=group[1][defn[1][1]]
+            v=case defn[1][0]
+                when :min
+                  c.to_a.min
+                when :max
+                  c.to_a.max
+                else
+                  DescriptiveStatistics.send(defn[1][0],c.to_a)
+              end
+            if c.column_class.respond_to?(:quantity_name) && defn[1][0]!=:number
+              c.column_class.send(c.column_unit.name,v)
+            else
+              v
+            end
+          end
         end
         row.insert 0,group[0]
         output.append_row row

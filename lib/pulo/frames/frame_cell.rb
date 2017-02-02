@@ -51,25 +51,23 @@ module Pulo
         end
       end
 
-
       if val.class.respond_to?(:quantity_name)
         if val.unit.name!=@parent_column.column_unit.name
           val=val.send(@parent_column.column_unit.name)
         end
       end
 
-
-      if @parent_column.column_class!=NilClass && val.class!=NilClass
-        if val.class.respond_to?(:quantity_name)
-          unless val.class.dimensions==@parent_column.column_class.dimensions
-            raise "Tried to set a value (#{val.to_s}) of class #{val.class} with dimensions #{val.class.dimensions} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
-          end
-        else
-          unless val.class==@parent_column.column_class
-            raise "Tried to set a value (#{val.to_s}) of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
-          end
-        end
-      end
+      #if @parent_column.column_class!=NilClass && val.class!=NilClass
+      #  if val.class.respond_to?(:quantity_name)
+      #    unless val.class.dimensions==@parent_column.column_class.dimensions
+      #      raise "Tried to set a value (#{val.to_s}) of class #{val.class} with dimensions #{val.class.dimensions} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+      #    end
+      #  else
+      #    unless val.class==@parent_column.column_class
+      #      raise "Tried to set a value (#{val.to_s}) of class #{val.class} on column #{@parent_column.name} which already has a defined class of #{@parent_column.column_class}."
+      #    end
+      #  end
+      #end
       @value=val
     end
 
