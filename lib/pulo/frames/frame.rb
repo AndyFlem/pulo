@@ -31,7 +31,7 @@ module Pulo
         }
         csv << @columns.map {|col|
           if col.column_class.respond_to?(:quantity_name)
-            col.column_unit.name
+            col.column_unit.abbreviation
           else
             ''
           end
