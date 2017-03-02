@@ -80,6 +80,7 @@ module Pulo
           row[column_number].value=@formula.call(row)
           row[column_number].unset_error
         rescue Exception => e
+          #raise "Exception '#{e}' occured calculating column: #{@name} row: #{row.row_number}"
           warn "Warning! Exception '#{e}' occured calculating column: #{@name} row: #{row.row_number}"
           row[column_number].set_error
         end

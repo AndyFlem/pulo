@@ -219,7 +219,12 @@ module Pulo
       existing_or_new_quantity new_dims,target_scale,target_value
     end
     def <=>(other)
-      raise  QuantitiesException.new('Can only compare quantities with same dimensions') unless other.is_a?(Quantity) && self.class.dimensions==other.class.dimensions
+      unless (other.is_a?(Quantity) && self.class.dimensions==other.class.dimensions) || (other.is_a?(Numeric) && self.class==Dimensionless)
+        raise  QuantitiesException.new("Can only compare quantities with same dimensions (given: #{self.class} and #{other.class}).")
+      end
+      if other.is_a?(Numeric)
+        other=Dimensionless.n(other)
+      end
       to_base_unit.value<=>other.to_base_unit.value
     end
 
