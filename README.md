@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/pulo.svg)](https://badge.fury.io/rb/pulo)
 [![Build Status](https://travis-ci.org/AndyFlem/pulo.svg?branch=master)](https://travis-ci.org/AndyFlem/pulo)
 [![Coverage Status](https://coveralls.io/repos/github/AndyFlem/pulo/badge.svg?branch=master)](https://coveralls.io/github/AndyFlem/pulo?branch=master)
 
@@ -88,7 +89,7 @@ p.to_s
 => "Pressure: 6,772 Pa"
 ```
 
-###Calculations on Dimensions
+### Calculations on Dimensions
 Every quantity in **pulo** has an associated dimension eg SpecificHeat - [L².K⁻¹.T⁻²]. The dimensions currently used are:
 
  - **L** - Length
