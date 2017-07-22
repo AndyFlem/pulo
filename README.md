@@ -104,7 +104,7 @@ Any calculation involving quantities is inspected to determine the resulting dim
 force=Force.kN(100)
 area=Area.square_inches(200)
 pressure=force/area
-a.to_s
+pressure.to_s
 => "Pressure: 0.78 MPa"
 
 area.dimensions.spec
@@ -135,6 +135,24 @@ The following operators and functions are overloaded to recognize quantities and
 ```inverse``` (inverse) 
 ```cos, sin, tan``` (trig functions)   
 
+## Example in Pry
+
+    $ mkdir ~/pulo_scratch
+    $ cd ~/pulo_scratch
+    $ gem install pulo
+    $ pry
+
+```ruby
+require 'pulo'
+cd Pulo
+drum=Cylinder.new(diameter: Length.inches(22.5),length: Length.inches(33.5))
+drum.volume.litres.to_s
+
+par_mass=drum.volume*Densities.Paraffin
+drum_mass=drum.surfacearea*Length.inches(0.0375)*Densities.Steel_mild
+total_mass=(par_mass+drum_mass).kilograms
+total_mass.to_s
+```
 
 ## Contributing
 
