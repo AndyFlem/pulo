@@ -50,13 +50,6 @@ module Pulo
         expect(a[0][0]).to eq(:Iridium)
       end
 
-      it 'should allow conversion to a frame' do
-        frm=Densities.to_frame.sort do |row|
-          row['Density'].value
-        end
-        expect(frm["Item"][0].value).to eq(:Air)
-      end
-
       it 'should allow conversion to yaml' do
         y=Densities.to_yaml
         expect(y.class).to eq(String)

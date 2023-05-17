@@ -1,6 +1,6 @@
 
 
-require 'coveralls'
-Coveralls.wear!
+#require 'coveralls'
+#Coveralls.wear!
 
 require_relative '../lib/pulo'
