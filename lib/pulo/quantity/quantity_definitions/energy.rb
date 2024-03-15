@@ -32,8 +32,18 @@ QuantityBuilder.build(:SpecificEnergy) do
   non_si_unit :megajoules_per_tonne,:sf,'MJ.t⁻¹',:megajoule_per_kilogram,1000
   non_si_unit :kilocalorie_per_kilogram,:sf,'kcal.kg⁻¹',:kilojoule_per_kilogram,0.239005736
   non_si_unit :btu_per_pound,:btu_per_pound,'Btu.lb⁻¹',:kilojoule_per_kilogram,0.429922614
+  non_si_unit :kilowatt_hour_per_kilogram,:sf,'kWh.kg⁻¹',:megajoule_per_kilogram,0.277777778
 
   synonyms :SpecificEnthalpy,:CalorificValue,:HHV,:LHV
+end
+QuantityBuilder.build(:MassPerEnergy) do
+  dimensions L:-2,T:2
+  si_unit :kilogram_per_joule,:sf,'kg.J⁻¹',1
+  si_unit :kilogram_per_kilojoule,:sf,'kg.kJ⁻¹',10**-3
+  si_unit :kilogram_per_megajoule,:sf,'kg.MJ⁻¹',10**-6
+
+  non_si_unit :kilogram_per_kilowatt_hour,:sf,'kg.kWh⁻¹',:kilogram_per_megajoule, 1/0.277777778
+
 end
 QuantityBuilder.build(:SpecificHeat) do
   dimensions L:2,T:-2,K:-1
